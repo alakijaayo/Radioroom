@@ -3,7 +3,7 @@ sudo: required
 
     language: node_js
       node_js:
-        - "node"
+        - "8"
       before_script:
         - cd client
         - npm install
@@ -11,5 +11,5 @@ sudo: required
         directories:
           - "node_modules"
       script:
-
+        - npm run test
         - npm run build
