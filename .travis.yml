@@ -1,12 +1,23 @@
-language: node_js
-node_js:
-  - "8"
-before_script:
-  - cd client
-  - npm install
-cache:
-directories:
-  - "node_modules"
-script:
-  - npm run test
-  - npm run build
+matrix:
+  include:
+    - language: node_js
+      node_js:
+        - "8"
+      before_script:
+        - cd client
+        - npm install
+      cache:
+      directories:
+        - "node_modules"
+      script:
+        - npm run test
+        - npm run build
+    - language: node_js
+      node_js:
+        - "8"
+      before_script:
+        - cd server
+        - npm install
+      cache:
+      directories:
+        - "node_modules"
