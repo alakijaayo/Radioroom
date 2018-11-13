@@ -11,3 +11,4 @@ language: node_js
           - "node_modules"
       script:
         - npm test
+        - npm run build
