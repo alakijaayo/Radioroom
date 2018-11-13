@@ -25,3 +25,7 @@ matrix:
       cache:
       directories:
         - "node_modules"
+      deploy:
+        provider: heroku
+        api_key: 2cf6dfc5-aacd-4490-b010-426387dab4bb
+        app: server
