@@ -11,5 +11,5 @@ sudo: required
         directories:
           - "node_modules"
       script:
-        - npm test
+
         - npm run build
