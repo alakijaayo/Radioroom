@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import './App.css';
 
 class Search extends Component {
-  constructor(spotifyApi) {
+  constructor(props) {
     super();
-    this.spotifyApi = spotifyApi
+    this.spotifyApi = props.spotifyApi
     this.state = { value: " " };
     this.handleChange = this.handleChange.bind(this);
    this.handleSubmit = this.handleSubmit.bind(this);
@@ -13,13 +13,18 @@ class Search extends Component {
    this.setState({ value: event.target.value });
  }
 
- async handleSubmit(event) {
+  handleSubmit(event) {
    // event.preventDefault();
    // const peepText = this.state.value;
    // const peep = await this.api.createPeep(peepText);
    // this.props.onNewPeep(peep);
    // this.setState({ value: ‘’ });
+   this.spotifyApi.search(this.state.value, ["track"])
+   .then(response => {
+     console.log(response);
+   });
  }
+
 
   render() {
     return (
