@@ -27,7 +27,7 @@ class App extends Component {
       hashParams[e[1]] = decodeURIComponent(e[2]);
       e = r.exec(q);
     }
-    console.log(hashParams)
+    console.log(hashParams);
     return hashParams;
   }
   getNowPlaying() {
@@ -40,18 +40,34 @@ class App extends Component {
       });
     });
   }
+  addToPlaylist() {
+    spotifyApi
+      .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [
+        'spotify:track:3OS89TR8GlrNElV2OtqLLn'
+      ])
+      .then(response => {
+        console.log(response);
+      });
+  }
   render() {
     return (
       <div className="App">
         <a href="http://localhost:8888"> Login to Spotify </a>
         <div>Now Playing: {this.state.nowPlaying.name}</div>
         <div>
-          <img src={this.state.nowPlaying.albumArt} alt="album artistry" style={{ height: 150 }} />
+          <img
+            src={this.state.nowPlaying.albumArt}
+            alt="album artistry"
+            style={{ height: 150 }}
+          />
         </div>
         {this.state.loggedIn && (
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
+        )}
+        {this.state.loggedIn && (
+          <button onClick={() => this.addToPlaylist()}>Add Track</button>
         )}
       </div>
     );
