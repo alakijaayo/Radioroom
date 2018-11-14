@@ -26,6 +26,8 @@ matrix:
     cache:
     directories:
     - node_modules
+    script:
+      node authorization_code/app.js
     deploy:
       provider: heroku
       api_key:
