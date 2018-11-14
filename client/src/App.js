@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
+import Search from './Search.js';
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -69,9 +70,10 @@ class App extends Component {
         {this.state.loggedIn && (
           <button onClick={() => this.addToPlaylist()}>Add Track</button>
         )}
+        <Search spotifyApi = { spotifyApi } />
       </div>
     );
+    }
   }
-}
 
 export default App;
