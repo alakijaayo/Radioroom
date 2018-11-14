@@ -9,21 +9,16 @@ class Search extends Component {
     this.state = { value: '', tracks: [{}] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    // console.log(props.addToPlaylist);
   }
   handleChange(event) {
     this.setState({ value: event.target.value });
   }
 
   handleSubmit(event) {
-    // event.preventDefault();
-    // const peepText = this.state.value;
-    // const peep = await this.api.createPeep(peepText);
-    // this.props.onNewPeep(peep);
-    // this.setState({ value: ‘’ });
+    event.preventDefault();
     this.spotifyApi.search(this.state.value, ['track']).then(response => {
-      console.log(response);
-      console.log(response.tracks.items);
-      this.setState({ tracks: response.tracks.items });
+      this.setState({ value: '', tracks: response.tracks.items });
     });
   }
 
@@ -41,7 +36,10 @@ class Search extends Component {
           </label>
           <input type="submit" value="Submit" />
         </form>
-        <SearchTracks tracks={this.state.tracks} />
+        <SearchTracks
+          tracks={this.state.tracks}
+          addToPlaylist={this.props.addToPlaylist}
+        />
       </div>
     );
   }

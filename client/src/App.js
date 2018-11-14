@@ -17,6 +17,7 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' }
     };
+    this.addToPlaylist = this.addToPlaylist.bind(this);
   }
   getHashParams() {
     var hashParams = {};
@@ -28,7 +29,6 @@ class App extends Component {
       hashParams[e[1]] = decodeURIComponent(e[2]);
       e = r.exec(q);
     }
-    console.log(hashParams);
     return hashParams;
   }
   getNowPlaying() {
@@ -41,11 +41,9 @@ class App extends Component {
       });
     });
   }
-  addToPlaylist() {
+  addToPlaylist(spotifyTrackUri) {
     spotifyApi
-      .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [
-        'spotify:track:3OS89TR8GlrNElV2OtqLLn'
-      ])
+      .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
       .then(response => {
         console.log(response);
       });
@@ -70,10 +68,10 @@ class App extends Component {
         {this.state.loggedIn && (
           <button onClick={() => this.addToPlaylist()}>Add Track</button>
         )}
-        <Search spotifyApi = { spotifyApi } />
+        <Search spotifyApi={spotifyApi} addToPlaylist={this.addToPlaylist} />
       </div>
     );
-    }
   }
+}
 
 export default App;

@@ -4,11 +4,11 @@ export default class SearchTrack extends React.Component {
   constructor(props) {
     super(props);
     this.track = props.track;
-    // this.onDelete = this.onDelete.bind(this);
+    this.onAddToPlaylist = this.onAddToPlaylist.bind(this);
   }
-  // onDelete() {
-  //   this.props.onDeletePeep(this.peep);
-  // }
+  onAddToPlaylist() {
+    this.props.addToPlaylist(this.track.uri);
+  }
   render() {
     return (
       <div className="track">
@@ -26,8 +26,12 @@ export default class SearchTrack extends React.Component {
         ) : (
           ''
         )}
-        <div className="">{this.track.name}</div>
-        <button>Add</button>
+        {this.track.id ? <div className="">{this.track.name}</div> : ''}
+        {this.track.id ? (
+          <button onClick={this.onAddToPlaylist}>Add</button>
+        ) : (
+          ''
+        )}
       </div>
     );
   }

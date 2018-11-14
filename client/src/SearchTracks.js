@@ -10,11 +10,14 @@ export default class SearchTracks extends React.Component {
   }
   render() {
     const { tracks } = this.props;
-    console.log(tracks);
     return (
       <div className="tracks">
         {tracks.map(track => (
-          <SearchTrack key={track.id} track={track} />
+          <SearchTrack
+            key={track.id}
+            track={track}
+            addToPlaylist={this.props.addToPlaylist}
+          />
         ))}
       </div>
     );
