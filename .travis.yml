@@ -26,6 +26,10 @@ matrix:
     cache:
     directories:
     - node_modules
+    script:
+    - cd authorization_code
+    - node app.js &
+    - npm run test
     deploy:
       provider: heroku
       api_key:
