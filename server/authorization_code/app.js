@@ -111,7 +111,7 @@ app.get('/callback', function(req, res) {
 
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          'http://localhost:3000/#' +
+          'https://radioroom1.herokuapp.com/' +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
@@ -157,4 +157,4 @@ app.get('/refresh_token', function(req, res) {
 });
 
 console.log('Listening on 8888');
-app.listen(8888);
+app.listen("https://radioroomserver.herokuapp.com/");
