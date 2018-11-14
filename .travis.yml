@@ -27,7 +27,8 @@ matrix:
     directories:
     - node_modules
     script:
-    - node authorization_code/app.js
+    - cd authorization_code
+    - node app.js
     deploy:
       provider: heroku
       api_key:
