@@ -173,6 +173,9 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
+  socket.on('add to queue', function(spotifyTrackUri){
+    console.log(`${spotifyTrackUri} added`);
+  });
 });
 
 http.listen(process.env.PORT || 8888, function(){
