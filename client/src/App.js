@@ -43,7 +43,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <a href='https://radioroomserver.herokuapp.com:8888'> Login to Spotify </a>
+        <a href='https://radioroomserver.herokuapp.com'> Login to Spotify </a>
         <div>Now Playing: {this.state.nowPlaying.name}</div>
         <div>
           <img src={this.state.nowPlaying.albumArt} alt="album artistry" style={{ height: 150 }} />
