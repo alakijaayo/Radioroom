@@ -110,9 +110,14 @@ app.get('/callback', function(req, res) {
           console.log(body);
         });
 
+        var host =
+          process.env.NODE_ENV === 'production'
+            ? 'https://radioroom1.herokuapp.com/#'
+            : 'http://localhost:3000/#';
+
         // we can also pass the token to the browser to make requests from there
         res.redirect(
-          'https://radioroom1.herokuapp.com/#' +
+          host +
             querystring.stringify({
               access_token: access_token,
               refresh_token: refresh_token
@@ -157,5 +162,5 @@ app.get('/refresh_token', function(req, res) {
   });
 });
 
-console.log(`Listening on ${process.env.PORT}`)
+console.log(`Listening on ${process.env.PORT || 8888}`);
 app.listen(process.env.PORT || 8888);
