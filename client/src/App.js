@@ -43,15 +43,23 @@ class App extends Component {
       });
     });
   }
-  addToPlaylist(spotifyTrackUri) {
-    socket.emit('add to queue', spotifyTrackUri)
+  addToPlaylist(spotifyTrack) {
+    let queuedTrack = {
+      uri: spotifyTrack.uri,
+      artist: spotifyTrack.artists[0].name,
+      track: spotifyTrack.name,
+      artwork: spotifyTrack.album.images[0].url
+    }
+
+    socket.emit('add to queue', JSON.stringify(queuedTrack))
+  }
 
     // spotifyApi
     //   .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
     //   .then(response => {
     //     console.log(response);
     //   });
-  }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'

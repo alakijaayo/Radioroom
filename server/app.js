@@ -173,8 +173,8 @@ io.on('connection', function(socket){
   socket.on('disconnect', function(){
     console.log('user disconnected');
   });
-  socket.on('add to queue', function(spotifyTrackUri){
-    console.log(`${spotifyTrackUri} added`);
+  socket.on('add to queue', function(spotifyTrack){
+    console.log(spotifyTrack);
   });
 });
 
