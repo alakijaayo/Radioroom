@@ -23,10 +23,9 @@ matrix:
     before_script:
     - cd server
     - npm install
-    - node app.js
     cache:
     directories:
-    - node_modules
+    - node_modules 
     deploy:
       provider: heroku
       api_key:
