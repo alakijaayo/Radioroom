@@ -49,9 +49,13 @@ class App extends Component {
       });
   }
   render() {
+    let host =
+      process.env.NODE_ENV === 'production'
+        ? 'https://radioroomserver.herokuapp.com'
+        : 'http://localhost:8888';
     return (
       <div className="App">
-        <a href='https://radioroomserver.herokuapp.com'> Login to Spotify </a>
+        <a href={host}> Login to Spotify </a>
         <div>Now Playing: {this.state.nowPlaying.name}</div>
         <div>
           <img
