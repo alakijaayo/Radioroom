@@ -3,11 +3,6 @@ import SearchTrack from './SearchTrack.js';
 //import './css/SearchTracks.css';
 
 export default class SearchTracks extends React.Component {
-  constructor(props) {
-    super(props);
-
-    //this.api = props.api;
-  }
   render() {
     const { tracks } = this.props;
     return (
