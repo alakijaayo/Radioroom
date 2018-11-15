@@ -14,7 +14,7 @@ export default class SearchTracks extends React.Component {
       <div className="tracks">
         {tracks.map(track => (
           <SearchTrack
-            key={track.id}
+            key={track.id || 'unique_dummy_id'}
             track={track}
             addToPlaylist={this.props.addToPlaylist}
           />
