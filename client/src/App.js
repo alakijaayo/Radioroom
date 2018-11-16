@@ -6,11 +6,12 @@ import Player from './Player.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
-const socket = io('http://localhost:8888');
+const socket = io( process.env.NODE_ENV === 'production'
+        ? 'https://radioroomserver.herokuapp.com'
+        : 'http://localhost:8888')
 // socket.on('Play Track', function(uri){
 //   console.log(uri)
-// });
-
+// })
 class App extends Component {
   constructor() {
     super();
