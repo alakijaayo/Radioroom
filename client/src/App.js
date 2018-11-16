@@ -2,24 +2,42 @@ import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Search from './Search.js';
+import Player from './Player.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
 const socket = io('http://localhost:8888');
+// socket.on('Play Track', function(uri){
+//   console.log(uri)
+// });
 
 class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
-    const token = params.access_token;
-    if (token) {
-      spotifyApi.setAccessToken(token);
-    }
+    socket.on('Play Track', function(uri){
+      console.log(uri)
+      this.player.playTrack(uri)
+    }.bind(this))
+      ;
+    this.token = params.access_token;
+    this.timerId = 0;
     this.state = {
-      loggedIn: token ? true : false,
+      loggedIn: this.token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' }
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
+    this.checkPlayerReady = this.checkPlayerReady.bind(this);
+  }
+  componentDidMount() {
+    if (this.token) {
+      spotifyApi.setAccessToken(this.token);
+      if (window.PlayerReady) {
+        this.player = new Player(this.token);
+      } else {
+        this.timerId = setInterval(this.checkPlayerReady, 100);
+      }
+    }
   }
   getHashParams() {
     var hashParams = {};
@@ -49,16 +67,18 @@ class App extends Component {
       artist: spotifyTrack.artists[0].name,
       track: spotifyTrack.name,
       artwork: spotifyTrack.album.images[0].url
-    }
-
-    socket.emit('add to queue', JSON.stringify(queuedTrack))
+    };
+    // this.player.playTrack(queuedTrack.uri);
+    socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
-
-    // spotifyApi
-    //   .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
-    //   .then(response => {
-    //     console.log(response);
-    //   });
+  checkPlayerReady() {
+    console.log('timer fired');
+    if (window.PlayerReady) {
+      console.log(this.token);
+      this.player = new Player(this.token);
+      clearInterval(this.timerId);
+    }
+  }
 
   render() {
     let host =
