@@ -36,5 +36,51 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script src="https://sdk.scdn.co/spotify-player.js"></script>
+    <script>
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    const token = 'BQBwYBOIZT9EexEP52kaE2VJeD-EAdV4dPcfIi8_TVaRBXwcRS4etttb9P9Y1526lv9r83R5Iu7p8ckZsefMsijltiZt0HbzOPKRH2m-NX1KMPbbDZ9PTGX683d31mSDWqQG6i5Ofiu0yD_swgg1tvOeMFsTD9WNceqhuHY';
+    const player = new Spotify.Player({
+      name: 'Web Playback SDK Quick Start Player',
+      getOAuthToken: cb => { cb(token); }
+    });
+    let userDeviceId = ''
+    // Error handling
+    player.addListener('initialization_error', ({ message }) => { console.error(message); });
+    player.addListener('authentication_error', ({ message }) => { console.error(message); });
+    player.addListener('account_error', ({ message }) => { console.error(message); });
+    player.addListener('playback_error', ({ message }) => { console.error(message); });
+
+    // Playback status updates
+    player.addListener('player_state_changed', state => { console.log(state); });
+
+    // Ready
+    player.addListener('ready', ({ device_id }) => {
+      userDeviceId = device_id
+      console.log('Ready with Device ID', device_id);
+      fetch(`https://api.spotify.com/v1/me/player/play?device_id=${userDeviceId}`, {
+          method: 'PUT',
+          body: JSON.stringify({ uris: ['spotify:track:58JWgddetPqN8uuweaoXsI'] }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+        });
+    });
+
+    // Not Ready
+    player.addListener('not_ready', ({ device_id }) => {
+      console.log('Device ID has gone offline', device_id);
+    });
+
+
+
+    // Connect to the player!
+    player.connect();
+
+  }
+
+
+</script>
   </body>
 </html>
