@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Search from './Search.js';
+import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
+const socket = io('http://localhost:8888');
 
 class App extends Component {
   constructor() {
@@ -41,13 +43,23 @@ class App extends Component {
       });
     });
   }
-  addToPlaylist(spotifyTrackUri) {
-    spotifyApi
-      .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
-      .then(response => {
-        console.log(response);
-      });
+  addToPlaylist(spotifyTrack) {
+    let queuedTrack = {
+      uri: spotifyTrack.uri,
+      artist: spotifyTrack.artists[0].name,
+      track: spotifyTrack.name,
+      artwork: spotifyTrack.album.images[0].url
+    }
+
+    socket.emit('add to queue', JSON.stringify(queuedTrack))
   }
+
+    // spotifyApi
+    //   .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
+    //   .then(response => {
+    //     console.log(response);
+    //   });
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'

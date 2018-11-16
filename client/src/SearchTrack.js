@@ -7,7 +7,7 @@ export default class SearchTrack extends React.Component {
     this.onAddToPlaylist = this.onAddToPlaylist.bind(this);
   }
   onAddToPlaylist() {
-    this.props.addToPlaylist(this.track.uri);
+    this.props.addToPlaylist(this.track);
   }
   render() {
     return (

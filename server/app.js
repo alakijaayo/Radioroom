@@ -12,6 +12,10 @@ var request = require('request'); // "Request" library
 var cors = require('cors');
 var querystring = require('querystring');
 var cookieParser = require('cookie-parser');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
 
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
@@ -36,7 +40,6 @@ var generateRandomString = function(length) {
 
 var stateKey = 'spotify_auth_state';
 
-var app = express();
 
 app
   .use(express.static(__dirname + '/public'))
@@ -161,6 +164,20 @@ app.get('/refresh_token', function(req, res) {
     }
   });
 });
+//
+// console.log(`Listening on ${process.env.PORT || 8888}`);
+// app.listen();
 
-console.log(`Listening on ${process.env.PORT || 8888}`);
-app.listen(process.env.PORT || 8888);
+io.on('connection', function(socket){
+  console.log('a user connected');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
+  socket.on('add to queue', function(spotifyTrack){
+    console.log(spotifyTrack);
+  });
+});
+
+http.listen(process.env.PORT || 8888, function(){
+  console.log(`Listening on ${process.env.PORT || 8888}`);
+});
