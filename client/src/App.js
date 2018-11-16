@@ -60,7 +60,7 @@ class App extends Component {
       track: spotifyTrack.name,
       artwork: spotifyTrack.album.images[0].url
     };
-
+    this.player.playTrack(queuedTrack.uri);
     socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
   checkPlayerReady() {

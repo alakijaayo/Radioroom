@@ -33,7 +33,6 @@ class Player {
     this.player.addListener('ready', ({ device_id }) => {
       this.deviceId = device_id;
       console.log('Ready with Device ID', device_id);
-      this.playTrack('spotify:track:5wVylZHmBid99XzEsz8Fk7');
     });
 
     // Not Ready
