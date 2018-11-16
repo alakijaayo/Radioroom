@@ -12,22 +12,24 @@ class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
-    const token = params.access_token;
-    this.timerId = 0
-    if (token) {
-      spotifyApi.setAccessToken(token);
-      console.log(window.PlayerReady)
-      if (window.PlayerReady){
-        this.player = new Player(token);
-      }
-      else { this.timerId = setInterval(this.userTimer(token), 5);
-      }
-    }
+    this.token = params.access_token;
+    this.timerId = 0;
     this.state = {
-      loggedIn: token ? true : false,
+      loggedIn: this.token ? true : false,
       nowPlaying: { name: 'Not Checked', albumArt: '' }
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
+    this.checkPlayerReady = this.checkPlayerReady.bind(this);
+  }
+  componentDidMount() {
+    if (this.token) {
+      spotifyApi.setAccessToken(this.token);
+      if (window.PlayerReady) {
+        this.player = new Player(this.token);
+      } else {
+        this.timerId = setInterval(this.checkPlayerReady, 100);
+      }
+    }
   }
   getHashParams() {
     var hashParams = {};
@@ -57,24 +59,18 @@ class App extends Component {
       artist: spotifyTrack.artists[0].name,
       track: spotifyTrack.name,
       artwork: spotifyTrack.album.images[0].url
-    }
+    };
 
-    socket.emit('add to queue', JSON.stringify(queuedTrack))
+    socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
-
-    userTimer(token){
-      console.log(window.PlayerReady)
-      if (window.PlayerReady){
-        this.player = new Player(token);
-      }
+  checkPlayerReady() {
+    console.log('timer fired');
+    if (window.PlayerReady) {
+      console.log(this.token);
+      this.player = new Player(this.token);
+      clearInterval(this.timerId);
     }
-
-
-    // spotifyApi
-    //   .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
-    //   .then(response => {
-    //     console.log(response);
-    //   });
+  }
 
   render() {
     let host =
