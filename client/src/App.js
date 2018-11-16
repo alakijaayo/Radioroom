@@ -89,7 +89,7 @@ class App extends Component {
     return (
       <div className="App">
         <a href={host}> Login to Spotify </a>
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
+        <div className="songTitle">Now Playing: {this.state.nowPlaying.name}</div>
         <div>
           <img
             src={this.state.nowPlaying.albumArt}
@@ -97,14 +97,18 @@ class App extends Component {
             style={{ height: 150 }}
           />
         </div>
+        <div className="check-now-playing-button">
         {this.state.loggedIn && (
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
         )}
+        </div>
+        <div className="add-song-button">
         {this.state.loggedIn && (
           <button onClick={() => this.addToPlaylist()}>Add Track</button>
         )}
+        </div>
         <Search spotifyApi={spotifyApi} addToPlaylist={this.addToPlaylist} />
       </div>
     );
