@@ -7,11 +7,19 @@ import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
 const socket = io('http://localhost:8888');
+// socket.on('Play Track', function(uri){
+//   console.log(uri)
+// });
 
 class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
+    socket.on('Play Track', function(uri){
+      console.log(uri)
+      this.player.playTrack(uri)
+    }.bind(this))
+      ;
     this.token = params.access_token;
     this.timerId = 0;
     this.state = {
@@ -60,7 +68,7 @@ class App extends Component {
       track: spotifyTrack.name,
       artwork: spotifyTrack.album.images[0].url
     };
-    this.player.playTrack(queuedTrack.uri);
+    // this.player.playTrack(queuedTrack.uri);
     socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
   checkPlayerReady() {

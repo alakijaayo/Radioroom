@@ -174,6 +174,9 @@ io.on('connection', function(socket){
     console.log('user disconnected');
   });
   socket.on('add to queue', function(spotifyTrack){
+    let uri = JSON.parse(spotifyTrack).uri
+    console.log(uri)
+    io.emit('Play Track', uri)
     console.log(spotifyTrack);
   });
 });
