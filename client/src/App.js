@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import Search from './Search.js';
+import Player from './Player.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
@@ -12,8 +13,15 @@ class App extends Component {
     super();
     const params = this.getHashParams();
     const token = params.access_token;
+    this.timerId = 0
     if (token) {
       spotifyApi.setAccessToken(token);
+      console.log(window.PlayerReady)
+      if (window.PlayerReady){
+        this.player = new Player(token);
+      }
+      else { this.timerId = setInterval(this.userTimer(token), 5);
+      }
     }
     this.state = {
       loggedIn: token ? true : false,
@@ -53,6 +61,14 @@ class App extends Component {
 
     socket.emit('add to queue', JSON.stringify(queuedTrack))
   }
+
+    userTimer(token){
+      console.log(window.PlayerReady)
+      if (window.PlayerReady){
+        this.player = new Player(token);
+      }
+    }
+
 
     // spotifyApi
     //   .addTracksToPlaylist('4xB6J9Q3SA10sppDePG2A7', [`${spotifyTrackUri}`])
