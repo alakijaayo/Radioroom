@@ -32,7 +32,7 @@ class Queue {
     if (queue.length > 0) {
       let track = this.getCurrentTrack();
       timerId = setTimeout(this.playNextTrack, track.duration);
-      socket.emit('Play Track', track.uri);
+      socket.emit('Play Track', track);
     }
   }
   playNextTrack() {

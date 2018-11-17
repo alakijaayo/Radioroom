@@ -18,8 +18,15 @@ class App extends Component {
     const params = this.getHashParams();
     socket.on(
       'Play Track',
-      function(uri) {
-        this.player.playTrack(uri);
+      function(track) {
+        this.player.playTrack(track.uri);
+        this.setState({
+          nowPlaying: {
+            artist: track.artist,
+            track: track.track,
+            albumArt: track.artwork
+          }
+        });
       }.bind(this)
     );
     this.token = params.access_token;
@@ -113,9 +120,6 @@ class App extends Component {
                 alt="album cover art"
                 style={{ height: 150 }}
               />
-              <button onClick={() => this.getNowPlaying()}>
-                Check Now Playing
-              </button>
             </div>
             <div>{this.state.nowPlaying.track}</div>
             <div>by {this.state.nowPlaying.artist}</div>
