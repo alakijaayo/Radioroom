@@ -3,6 +3,7 @@ import ReactDom from 'react-dom';
 import App from './App';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16'
+import renderer from 'react-test-renderer'
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -13,6 +14,11 @@ it('renders without crashing', () => {
 });
 
 describe('App component', () => {
+  it('matches the snapshot', () => {
+    const tree = renderer.create(<App />).toJSON()
+    expect(tree).toMatchSnapshot()
+  });
+
   it('has a login text', () => {
     const wrapper = shallow(<App />)
     const text = wrapper.find('a').text()
