@@ -16,7 +16,6 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
 var client_id = process.env.CLIENT_ID;
@@ -39,7 +38,6 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
-
 
 app
   .use(express.static(__dirname + '/public'))
@@ -100,7 +98,10 @@ app.get('/callback', function(req, res) {
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
-          refresh_token = body.refresh_token;
+          refresh_token = body.refresh_token,
+          user_name = '',
+          user_id = '',
+          user_image_url = '';
 
         var options = {
           url: 'https://api.spotify.com/v1/me',
@@ -111,6 +112,9 @@ app.get('/callback', function(req, res) {
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
           console.log(body);
+          user_name = body.display_name;
+          user_id = body.id;
+          user_image_url = body.images[0].url;
         });
 
         var host =
@@ -123,7 +127,10 @@ app.get('/callback', function(req, res) {
           host +
             querystring.stringify({
               access_token: access_token,
-              refresh_token: refresh_token
+              refresh_token: refresh_token,
+              user_name: user_name,
+              user_id: user_id,
+              user_image_url: user_image_url
             })
         );
       } else {
@@ -168,19 +175,19 @@ app.get('/refresh_token', function(req, res) {
 // console.log(`Listening on ${process.env.PORT || 8888}`);
 // app.listen();
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   console.log('a user connected');
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     console.log('user disconnected');
   });
-  socket.on('add to queue', function(spotifyTrack){
-    let uri = JSON.parse(spotifyTrack).uri
-    console.log(uri)
-    io.emit('Play Track', uri)
+  socket.on('add to queue', function(spotifyTrack) {
+    let uri = JSON.parse(spotifyTrack).uri;
+    console.log(uri);
+    io.emit('Play Track', uri);
     console.log(spotifyTrack);
   });
 });
 
-http.listen(process.env.PORT || 8888, function(){
+http.listen(process.env.PORT || 8888, function() {
   console.log(`Listening on ${process.env.PORT || 8888}`);
 });

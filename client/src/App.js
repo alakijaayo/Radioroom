@@ -6,21 +6,23 @@ import Player from './Player.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
-const socket = io( process.env.NODE_ENV === 'production'
-        ? 'https://radioroomserver.herokuapp.com'
-        : 'http://localhost:8888')
-// socket.on('Play Track', function(uri){
-//   console.log(uri)
-// })
+const socket = io(
+  process.env.NODE_ENV === 'production'
+    ? 'https://radioroomserver.herokuapp.com'
+    : 'http://localhost:8888'
+);
+
 class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
-    socket.on('Play Track', function(uri){
-      console.log(uri)
-      this.player.playTrack(uri)
-    }.bind(this))
-      ;
+    console.log(params);
+    socket.on(
+      'Play Track',
+      function(uri) {
+        this.player.playTrack(uri);
+      }.bind(this)
+    );
     this.token = params.access_token;
     this.timerId = 0;
     this.state = {
@@ -75,7 +77,6 @@ class App extends Component {
   checkPlayerReady() {
     console.log('timer fired');
     if (window.PlayerReady) {
-      console.log(this.token);
       this.player = new Player(this.token);
       clearInterval(this.timerId);
     }
