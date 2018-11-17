@@ -28,7 +28,7 @@ class App extends Component {
     this.timerId = 0;
     this.state = {
       loggedIn: this.token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' },
+      nowPlaying: { artist: '', track: '', albumArt: '' },
       user: {
         name: params.user_name,
         id: params.user_id,
@@ -62,9 +62,11 @@ class App extends Component {
   }
   getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState().then(response => {
+      console.log(response);
       this.setState({
         nowPlaying: {
-          name: response.item.name,
+          artist: response.item.artists[0].name,
+          track: response.item.name,
           albumArt: response.item.album.images[0].url
         }
       });
@@ -95,36 +97,48 @@ class App extends Component {
         : 'http://localhost:8888';
     return (
       <div className="App">
-        {!this.state.user.id ? (
-          <a href={host}>Login to Spotify</a>
+        <h1>RadioRoom</h1>
+        {this.state.loggedIn ? (
+          <div>
+            <div>
+              <img
+                src={this.state.user.imageUrl}
+                alt="user profile"
+                style={{ height: 150 }}
+              />
+              <span>{this.state.user.name}</span>
+              <span> ({this.state.user.id})</span>
+            </div>
+            <div>Now Playing:</div>
+            <div>
+              <img
+                src={this.state.nowPlaying.albumArt}
+                alt="album cover art"
+                style={{ height: 150 }}
+              />
+              <button onClick={() => this.getNowPlaying()}>
+                Check Now Playing
+              </button>
+            </div>
+            <div>{this.state.nowPlaying.track}</div>
+            <div>by {this.state.nowPlaying.artist}</div>
+            <Search
+              spotifyApi={spotifyApi}
+              addToPlaylist={this.addToPlaylist}
+            />
+          </div>
         ) : (
           <div>
-            <img
-              src={this.state.user.imageUrl}
-              alt="user profile"
-              style={{ height: 150 }}
-            />
-            <span>{this.state.user.name}</span>
-            <span> ({this.state.user.id})</span>
+            <h2>To get started, please login via Spotify</h2>
+            <p>
+              <strong>Note:</strong> to enjoy the full experience of RadioRoom
+              you need to have a Spotify Premium subscription
+            </p>
+            <a className="spotify-login-btn" href={host}>
+              Login to Spotify
+            </a>
           </div>
         )}
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
-        <div>
-          <img
-            src={this.state.nowPlaying.albumArt}
-            alt="album artistry"
-            style={{ height: 150 }}
-          />
-        </div>
-        {this.state.loggedIn && (
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-        )}
-        {this.state.loggedIn && (
-          <button onClick={() => this.addToPlaylist()}>Add Track</button>
-        )}
-        <Search spotifyApi={spotifyApi} addToPlaylist={this.addToPlaylist} />
       </div>
     );
   }

@@ -36,3 +36,26 @@ div,
 button {
   margin: 10px;
 }
+
+.spotify-login-btn {
+  background: #84bd00;
+  border-radius: 400px;
+  height: 48px;
+  margin: 8px;
+  padding: 13px 17px;
+  font-size: 14px;
+  line-height: 21px;
+  font-weight: 500;
+  display: inline-block;
+  color: #fff;
+  text-align: center;
+  transition: all 0.3s;
+  white-space: nowrap;
+  vertical-align: middle;
+  touch-action: manipulation;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  text-decoration: none;
+  box-sizing: border-box;
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1542467798025" clover="3.2.0">
+  <project timestamp="1542467798026" name="All files">
+    <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0" elements="10" coveredelements="4" complexity="0" loc="7" ncloc="7" packages="1" files="1" classes="1">
+      <file name="queue.js" path="/Users/jon/Projects/makers/final/Radioroom/server/src/queue.js">
+        <metrics statements="7" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+      </file>
+    </metrics>
+  </project>
+</coverage>
