@@ -176,9 +176,7 @@ io.on('connection', function(socket) {
   socket.on('add to queue', function(spotifyTrack) {
     let track = JSON.parse(spotifyTrack);
     io.emit('Play Track', track.uri);
-    console.log(typeof track);
     queue.addTrack(track);
-    console.log(queue.getQueue());
   });
 });
 
