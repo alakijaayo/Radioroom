@@ -1,13 +1,16 @@
-var queue = [];
+let queue = [];
 
-exports.addTrack = function(track) {
-  queue.push(Object.assign(track, { addedOn: new Date(), votes: 0 }));
-};
+class Queue {
+  constructor(Date = Date) {}
+  addTrack(track) {
+    queue.push(Object.assign(track, { addedOn: new Date(), votes: 0 }));
+  }
+  removeTrack(uri) {
+    return 'test';
+  }
+  getCurrentTrack() {
+    return queue[0];
+  }
+}
 
-exports.removeTrack = function(uri) {
-  return 'test';
-};
-
-exports.getQueue = function() {
-  return queue;
-};
+module.exports = Queue;
