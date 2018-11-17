@@ -16,7 +16,6 @@ class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
-    console.log(params);
     socket.on(
       'Play Track',
       function(uri) {
@@ -62,7 +61,6 @@ class App extends Component {
   }
   getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState().then(response => {
-      console.log(response);
       this.setState({
         nowPlaying: {
           artist: response.item.artists[0].name,
@@ -77,13 +75,12 @@ class App extends Component {
       uri: spotifyTrack.uri,
       artist: spotifyTrack.artists[0].name,
       track: spotifyTrack.name,
-      artwork: spotifyTrack.album.images[0].url
+      artwork: spotifyTrack.album.images[0].url,
+      duration: spotifyTrack.duration_ms
     };
-    // this.player.playTrack(queuedTrack.uri);
     socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
   checkPlayerReady() {
-    console.log('timer fired');
     if (window.PlayerReady) {
       this.player = new Player(this.token);
       clearInterval(this.timerId);

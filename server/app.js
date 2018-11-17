@@ -15,7 +15,8 @@ var cookieParser = require('cookie-parser');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var queue = require('./src/queue.js');
+const Queue = require('./src/queue.js');
+const queue = new Queue({ socket: io });
 
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
@@ -175,7 +176,6 @@ io.on('connection', function(socket) {
   });
   socket.on('add to queue', function(spotifyTrack) {
     let track = JSON.parse(spotifyTrack);
-    io.emit('Play Track', track.uri);
     queue.addTrack(track);
   });
 });
