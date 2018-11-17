@@ -98,10 +98,12 @@ app.get('/callback', function(req, res) {
     request.post(authOptions, function(error, response, body) {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token,
-          refresh_token = body.refresh_token,
-          user_name = '',
-          user_id = '',
-          user_image_url = '';
+          refresh_token = body.refresh_token;
+
+        var host =
+          process.env.NODE_ENV === 'production'
+            ? 'https://radioroom1.herokuapp.com/#'
+            : 'http://localhost:3000/#';
 
         var options = {
           url: 'https://api.spotify.com/v1/me',
@@ -111,28 +113,18 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
-          user_name = body.display_name;
-          user_id = body.id;
-          user_image_url = body.images[0].url;
+          // we can also pass the token to the browser to make requests from there
+          res.redirect(
+            host +
+              querystring.stringify({
+                access_token: access_token,
+                refresh_token: refresh_token,
+                user_name: body.display_name,
+                user_id: body.id,
+                user_image_url: body.images[0].url
+              })
+          );
         });
-
-        var host =
-          process.env.NODE_ENV === 'production'
-            ? 'https://radioroom1.herokuapp.com/#'
-            : 'http://localhost:3000/#';
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect(
-          host +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token,
-              user_name: user_name,
-              user_id: user_id,
-              user_image_url: user_image_url
-            })
-        );
       } else {
         res.redirect(
           '/#' +
