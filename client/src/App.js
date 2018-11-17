@@ -24,10 +24,16 @@ class App extends Component {
       }.bind(this)
     );
     this.token = params.access_token;
+    this.refreshToken = params.refresh_token;
     this.timerId = 0;
     this.state = {
       loggedIn: this.token ? true : false,
-      nowPlaying: { name: 'Not Checked', albumArt: '' }
+      nowPlaying: { name: 'Not Checked', albumArt: '' },
+      user: {
+        name: params.user_name,
+        id: params.user_id,
+        imageUrl: params.user_image_url
+      }
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
@@ -89,7 +95,19 @@ class App extends Component {
         : 'http://localhost:8888';
     return (
       <div className="App">
-        <a href={host}> Login to Spotify </a>
+        {!this.state.user.id ? (
+          <a href={host}>Login to Spotify</a>
+        ) : (
+          <div>
+            <img
+              src={this.state.user.imageUrl}
+              alt="user profile"
+              style={{ height: 150 }}
+            />
+            <span>{this.state.user.name}</span>
+            <span> ({this.state.user.id})</span>
+          </div>
+        )}
         <div>Now Playing: {this.state.nowPlaying.name}</div>
         <div>
           <img
