@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import User from './User.js';
+import NowPlaying from './NowPlaying.js';
 import Search from './Search.js';
 import Player from './Player.js';
 import io from 'socket.io-client';
@@ -110,6 +111,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state);
     let host =
       process.env.NODE_ENV === 'production'
         ? 'https://radioroomserver.herokuapp.com'
@@ -120,17 +122,7 @@ class App extends Component {
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <h2>Now Playing</h2>
-            <div>
-              <img
-                src={this.state.nowPlaying.albumArt}
-                alt="album cover art"
-                style={{ height: 150 }}
-              />
-            </div>
-            <div>{this.state.nowPlaying.track}</div>
-            <div>by {this.state.nowPlaying.artist}</div>
-
+            <NowPlaying nowPlaying={this.state.nowPlaying} />
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}

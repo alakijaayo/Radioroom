@@ -15,7 +15,7 @@ export default class User extends React.Component {
           style={{ height: 150 }}
         />
         <span>{this.user.name}</span>
-        <span> ({this.user.id})</span>
+        <span> ({this.user.id}) is in da house!</span>
       </div>
     );
   }
