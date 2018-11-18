@@ -3,6 +3,7 @@ import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
 import User from './User.js';
 import NowPlaying from './NowPlaying.js';
+import Queue from './Queue.js';
 import Search from './Search.js';
 import Player from './Player.js';
 import io from 'socket.io-client';
@@ -123,6 +124,7 @@ class App extends Component {
           <div>
             <User user={this.state.user} />
             <NowPlaying nowPlaying={this.state.nowPlaying} />
+            <Queue tracks={this.state.upNext} />
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}
