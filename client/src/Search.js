@@ -25,6 +25,7 @@ class Search extends Component {
   render() {
     return (
       <div className="search">
+        <h2>Search</h2>
         <form onSubmit={this.handleSubmit}>
           <label>
             Search Track:

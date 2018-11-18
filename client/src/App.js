@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
+import User from './User.js';
 import Search from './Search.js';
 import Player from './Player.js';
 import io from 'socket.io-client';
@@ -19,7 +20,6 @@ class App extends Component {
     socket.on(
       'Play Track',
       function(track) {
-        console.log(track);
         this.player.playTrack(track.uri);
         this.setState({
           nowPlaying: {
@@ -27,6 +27,15 @@ class App extends Component {
             track: track.track,
             albumArt: track.artwork
           }
+        });
+      }.bind(this)
+    );
+    socket.on(
+      'Queue Updated',
+      function(queue) {
+        console.log(queue);
+        this.setState({
+          upNext: queue
         });
       }.bind(this)
     );
@@ -45,6 +54,7 @@ class App extends Component {
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
   }
+
   componentDidMount() {
     if (this.token) {
       spotifyApi.setAccessToken(this.token);
@@ -55,6 +65,7 @@ class App extends Component {
       }
     }
   }
+
   getHashParams() {
     var hashParams = {};
     var e,
@@ -67,6 +78,7 @@ class App extends Component {
     }
     return hashParams;
   }
+
   getNowPlaying() {
     spotifyApi.getMyCurrentPlaybackState().then(response => {
       this.setState({
@@ -78,6 +90,7 @@ class App extends Component {
       });
     });
   }
+
   addToPlaylist(spotifyTrack) {
     let queuedTrack = {
       uri: spotifyTrack.uri,
@@ -88,6 +101,7 @@ class App extends Component {
     };
     socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
+
   checkPlayerReady() {
     if (window.PlayerReady) {
       this.player = new Player(this.token);
@@ -105,16 +119,8 @@ class App extends Component {
         <h1>RadioRoom</h1>
         {this.state.loggedIn ? (
           <div>
-            <div>
-              <img
-                src={this.state.user.imageUrl}
-                alt="user profile"
-                style={{ height: 150 }}
-              />
-              <span>{this.state.user.name}</span>
-              <span> ({this.state.user.id})</span>
-            </div>
-            <div>Now Playing:</div>
+            <User user={this.state.user} />
+            <h2>Now Playing</h2>
             <div>
               <img
                 src={this.state.nowPlaying.albumArt}
@@ -124,6 +130,7 @@ class App extends Component {
             </div>
             <div>{this.state.nowPlaying.track}</div>
             <div>by {this.state.nowPlaying.artist}</div>
+
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}
