@@ -14,3 +14,22 @@ Radioroom is a music media application and website that allows users to listen, 
 - Listen to music simultaneously
 - View how many people are in the room
 - Skip the song if there are too many down votes
+
+## Technologies Used
+
+### Front End
+- React
+- Jest
+- Enzyme
+- Cypress
+
+### Back End
+-  Node
+- Spotify Web API
+
+### Application Deployer
+- Heroku
+
+## Development
+
+For more information on our development process with regards to our Minimum Viable Product and User Stories, please read our [MVP.md](MVP.md)
