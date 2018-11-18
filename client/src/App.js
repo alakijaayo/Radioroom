@@ -19,6 +19,7 @@ class App extends Component {
     socket.on(
       'Play Track',
       function(track) {
+        console.log(track);
         this.player.playTrack(track.uri);
         this.setState({
           nowPlaying: {

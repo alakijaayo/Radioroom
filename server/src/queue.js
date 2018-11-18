@@ -1,52 +1,57 @@
-let queue = [];
-let socket;
-let timerId = 0;
-
 class Queue {
   constructor(props = {}) {
+    this.queue = [];
+    this.nowPlaying = null;
+    this.socket;
+    this.timerId = 0;
     if (props.Date) {
       Date = props.Date;
     }
     if (props.socket) {
-      socket = props.socket;
+      this.socket = props.socket;
     }
     this.playCurrentTrack = this.playCurrentTrack.bind(this);
     this.playNextTrack = this.playNextTrack.bind(this);
   }
   addTrack(track) {
-    queue.push(Object.assign(track, { addedOn: new Date(), votes: 0 }));
-    if (queue.length === 1) {
+    let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0 });
+    if (this.nowPlaying === null) {
+      this.nowPlaying = newTrack;
       this.playCurrentTrack();
+    } else {
+      this.queue.push(newTrack);
     }
   }
   get() {
-    return queue.slice(0);
+    return this.queue.slice(0);
   }
   getCurrentTrack() {
-    return queue.length > 0 ? queue[0] : {};
+    return this.nowPlaying;
   }
   playCurrentTrack() {
-    if (timerId !== 0) {
-      clearTimeout(timerId);
+    if (this.timerId !== 0) {
+      clearTimeout(this.timerId);
     }
-    if (queue.length > 0) {
-      let track = this.getCurrentTrack();
-      timerId = setTimeout(this.playNextTrack, track.duration);
-      socket.emit('Play Track', track);
+    if (this.nowPlaying !== null) {
+      this.timerId = setTimeout(this.playNextTrack, this.nowPlaying.duration);
+      this.socket.emit('Play Track', this.nowPlaying);
     }
   }
   playNextTrack() {
-    queue.shift();
+    this.nowPlaying = this.queue.length > 0 ? this.queue.shift() : null;
     this.playCurrentTrack();
   }
   removeTrack(uri) {
-    queue = queue.filter(track => {
-      return track.uri !== uri;
-    });
+    if (this.nowPlaying.uri === uri) {
+      this.playNextTrack();
+    } else {
+      this.queue = this.queue.filter(track => {
+        return track.uri !== uri;
+      });
+    }
   }
   sortNextByVotes() {
-    let nextQueue = queue.slice(1);
-    nextQueue.sort((a, b) => {
+    this.queue.sort((a, b) => {
       if (a.votes < b.votes) {
         return 1;
       }
@@ -61,16 +66,14 @@ class Queue {
       }
       return 0;
     });
-    nextQueue.unshift(queue[0]);
-    queue = nextQueue;
   }
   vote(uri, increment) {
-    const index = queue
+    const index = this.queue
       .map(t => {
         return t.uri;
       })
       .indexOf(uri);
-    queue[index].votes += increment;
+    this.queue[index].votes += increment;
   }
 }
 
