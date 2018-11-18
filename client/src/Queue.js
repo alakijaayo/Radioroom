@@ -1,5 +1,8 @@
 import React from 'react';
 import QueuedTrack from './QueuedTrack.js';
+import posed, { PoseGroup } from 'react-pose';
+
+const Item = posed.li({});
 
 export default class Queue extends React.Component {
   render() {
@@ -8,13 +11,19 @@ export default class Queue extends React.Component {
       <div className="queued-tracks">
         <h2>Up Next</h2>
         {tracks ? (
-          tracks.map(track => (
-            <QueuedTrack
-              key={track.uri || 'unique_dummy_id'}
-              track={track}
-              vote={this.props.vote}
-            />
-          ))
+          <ul>
+            <PoseGroup>
+              {tracks.map(track => (
+                <Item key={track.uri}>
+                  <QueuedTrack
+                    key={track.uri + '!' || 'unique_dummy_id'}
+                    track={track}
+                    vote={this.props.vote}
+                  />
+                </Item>
+              ))}
+            </PoseGroup>
+          </ul>
         ) : (
           <div>Empty...</div>
         )}
