@@ -138,9 +138,9 @@ describe('Queue', () => {
       queue.addTrack(track2);
       queue.vote(track.uri, 4);
       queue.vote(track2.uri, 2);
-      queue.vote(track4.uri, 2);
+      queue.vote(track4.uri, 3);
       queue.vote(track5.uri, -1);
-      queue.sortNextByVotes();
+      console.log(queue.get());
     });
     test('the now playing track should not move', () => {
       expect(queue.getCurrentTrack()).toBe(track3);
