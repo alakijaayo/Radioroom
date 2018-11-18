@@ -178,6 +178,12 @@ io.on('connection', function(socket) {
     let track = JSON.parse(spotifyTrack);
     queue.addTrack(track);
   });
+  socket.on('vote up', function(uri) {
+    queue.vote(uri, 1);
+  });
+  socket.on('vote down', function(uri) {
+    queue.vote(uri, -1);
+  });
 });
 
 http.listen(process.env.PORT || 8888, function() {

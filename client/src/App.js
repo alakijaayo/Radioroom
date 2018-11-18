@@ -55,6 +55,7 @@ class App extends Component {
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
+    this.vote = this.vote.bind(this);
   }
 
   componentDidMount() {
@@ -111,8 +112,12 @@ class App extends Component {
     }
   }
 
+  vote(uri, vote) {
+    const msg = vote === 1 ? 'vote up' : 'vote down';
+    socket.emit(msg, uri);
+  }
+
   render() {
-    console.log(this.state);
     let host =
       process.env.NODE_ENV === 'production'
         ? 'https://radioroomserver.herokuapp.com'
@@ -124,7 +129,7 @@ class App extends Component {
           <div>
             <User user={this.state.user} />
             <NowPlaying nowPlaying={this.state.nowPlaying} />
-            <Queue tracks={this.state.upNext} />
+            <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}

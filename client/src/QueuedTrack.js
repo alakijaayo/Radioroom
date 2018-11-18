@@ -6,8 +6,8 @@ export default class QueuedTrack extends React.Component {
     this.track = props.track;
     this.onVote = this.onVote.bind(this);
   }
-  onVote(vote) {
-    this.props.vote(vote);
+  onVote(uri, vote) {
+    this.props.vote(uri, vote);
   }
   render() {
     return (
@@ -23,7 +23,20 @@ export default class QueuedTrack extends React.Component {
         )}
         {this.track.artist ? <div className="">{this.track.artist}</div> : ''}
         {this.track.track ? <div className="">{this.track.track}</div> : ''}
-        {this.track.uri ? <button onClick={this.onVote}>Vote Up</button> : ''}
+        {this.track.uri ? (
+          <button onClick={this.onVote.bind(this, this.track.uri, 1)}>
+            Vote Up
+          </button>
+        ) : (
+          ''
+        )}
+        {this.track.uri ? (
+          <button onClick={this.onVote.bind(this, this.track.uri, -1)}>
+            Vote Down
+          </button>
+        ) : (
+          ''
+        )}
       </div>
     );
   }

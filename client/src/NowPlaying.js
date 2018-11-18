@@ -2,7 +2,6 @@ import React from 'react';
 
 export default class NowPlaying extends React.Component {
   render() {
-    console.log(this.props.nowPlaying);
     return (
       <div className="now-playing">
         <h2>Now Playing</h2>
