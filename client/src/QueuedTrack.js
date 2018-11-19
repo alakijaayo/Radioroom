@@ -4,10 +4,17 @@ export default class QueuedTrack extends React.Component {
   constructor(props) {
     super(props);
     this.onVote = this.onVote.bind(this);
-  }
+    this.state = {isButtonDisabled: false};
+    }
+
   onVote(uri, vote) {
     this.props.vote(uri, vote);
+    this.setState({
+      isButtonDisabled: true
+    });
   }
+
+
   render() {
     return (
       <div className="queued-track">
@@ -32,10 +39,12 @@ export default class QueuedTrack extends React.Component {
         )}
         {this.props.track.uri ? (
           <div>
-            <button onClick={this.onVote.bind(this, this.props.track.uri, 1)}>
+            <button id='Upvote'
+             onClick={this.onVote.bind(this, this.props.track.uri, 1)}
+             disabled={this.state.isButtonDisabled}>
               Vote Up
             </button>
-            <button onClick={this.onVote.bind(this, this.props.track.uri, -1)}>
+            <button id='Downvote' onClick={this.onVote.bind(this, this.props.track.uri, -1)}>
               Vote Down
             </button>
             Votes: {this.props.track.votes}
