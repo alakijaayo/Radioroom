@@ -6,6 +6,7 @@ import NowPlaying from './NowPlaying.js';
 import Queue from './Queue.js';
 import Search from './Search.js';
 import Player from './Player.js';
+import Chat from './Chat.js'
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
