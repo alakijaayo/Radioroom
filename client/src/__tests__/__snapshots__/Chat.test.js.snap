@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Chat component matches the snapshot 1`] = `
+<div
+  className="messages"
+>
+  <h2>
+    Chat
+  </h2>
+  <form
+    onSubmit={[Function]}
+  >
+    <textarea
+      cols="50"
+      rows="5"
+    />
+    <input
+      type="submit"
+      value="Submit"
+    />
+  </form>
+  <div
+    className="messagelist"
+  >
+    
+  </div>
+</div>
+`;

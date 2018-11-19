@@ -33,7 +33,7 @@ class Chat extends Component {
               <PoseGroup>
                 {this.props.messages.map(message => (
                   <Item key={message.id}>
-                    <div>
+                    <div id={message.id}>
                       <p>{message.text}</p>
                       <img src={message.user_url} alt="user profile" />
                     </div>
