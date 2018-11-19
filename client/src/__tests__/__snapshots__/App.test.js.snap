@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component matches the snapshot 1`] = `
+<div
+  className="App"
+>
+  <a
+    href="http://localhost:8888"
+  >
+     Login to Spotify 
+  </a>
+  <div
+    className="songTitle"
+  >
+    Now Playing: 
+    Not Checked
+  </div>
+  <div>
+    <img
+      alt="album artistry"
+      src=""
+      style={
+        Object {
+          "height": 150,
+        }
+      }
+    />
+  </div>
+  <div
+    className="check-now-playing-button"
+  />
+  <div
+    className="add-song-button"
+  />
+  <div
+    className="search"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <label>
+        Search Track:
+        <input
+          onChange={[Function]}
+          type="text"
+          value=""
+        />
+      </label>
+      <input
+        type="submit"
+        value="Submit"
+      />
+    </form>
+    <div
+      className="tracks"
+    >
+      <div
+        className="track"
+      >
+        
+        
+        
+        
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -24,7 +24,7 @@ Radioroom is a music media application and website that allows users to listen, 
 - Cypress
 
 ### Back End
--  Node
+- Node
 - Spotify Web API
 
 ### Application Deployer
