@@ -1,6 +1,22 @@
 import React from 'react';
+import Queue from './Queue.js';
+
+
+
 
 export default class NowPlaying extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.track = props.track;
+    this.playNextTrack = this.playNextTrack.bind(this);
+  }
+
+  playNextTrack(uri, skip) {
+    this.props.skip(uri, skip);
+    this.playCurrentTrack();
+  }
+
   render() {
     return (
       <div className="now-playing">
@@ -14,6 +30,12 @@ export default class NowPlaying extends React.Component {
             />
             <div>{this.props.nowPlaying.track}</div>
             <div>by {this.props.nowPlaying.artist}</div>
+            <div>
+            <button id ='skip'
+            onClick={this.playNextTrack.bind(this, this.props.track.uri)}>
+            Skip
+            </button>
+            </div>
           </div>
         ) : (
           <div>Silence...</div>

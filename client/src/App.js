@@ -8,6 +8,7 @@ import Search from './Search.js';
 import Player from './Player.js';
 import io from 'socket.io-client';
 
+
 const spotifyApi = new SpotifyWebApi();
 const socket = io(
   process.env.NODE_ENV === 'production'
@@ -27,7 +28,7 @@ class App extends Component {
           nowPlaying: {
             artist: track.artist,
             track: track.track,
-            albumArt: track.artwork
+            albumArt: track.artwork,
           }
         });
       }.bind(this)
@@ -56,6 +57,7 @@ class App extends Component {
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
     this.vote = this.vote.bind(this);
+    this.skip = this.skip.bind(this);
   }
 
   componentDidMount() {
@@ -117,6 +119,11 @@ class App extends Component {
     socket.emit(msg, uri);
   }
 
+  skip(uri, skip) {
+    const msg = skip;
+    socket.emit(msg, uri);
+  }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'
@@ -128,12 +135,13 @@ class App extends Component {
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <NowPlaying nowPlaying={this.state.nowPlaying} />
+            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip} />
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}
             />
+
           </div>
         ) : (
           <div>
