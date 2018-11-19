@@ -6,7 +6,7 @@ const Item = posed.li({});
 class Chat extends Component {
   constructor(props) {
     super();
-    this.state = { message: '', messages: [{ id: 1 }] };
+    this.state = { message: '' };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -17,6 +17,8 @@ class Chat extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
+    this.props.addChatMessage(this.state.message);
+    this.setState({ message: '' });
   }
 
   render() {
@@ -24,7 +26,12 @@ class Chat extends Component {
       <div className="messages">
         <h2>Chat</h2>
         <form onSubmit={this.handleSubmit}>
-          <textarea rows="5" cols="50" />
+          <textarea
+            rows="5"
+            cols="50"
+            value={this.state.message}
+            onChange={this.handleChange}
+          />
           <input type="submit" value="Submit" />
         </form>
         <div className="messagelist">

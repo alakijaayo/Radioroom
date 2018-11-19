@@ -56,6 +56,7 @@ class App extends Component {
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
+    this.addChatMessage = this.addChatMessage.bind(this);
     this.vote = this.vote.bind(this);
   }
 
@@ -118,6 +119,14 @@ class App extends Component {
     socket.emit(msg, uri);
   }
 
+  addChatMessage(msg) {
+    let chatMsg = {
+      text: msg,
+      user_url: this.state.user.imageUrl
+    };
+    socket.emit('chat message', JSON.stringify(chatMsg));
+  }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'
@@ -144,6 +153,7 @@ class App extends Component {
                     'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/1381887_10201346045386534_973307961_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=469ec1722c45310e5fd3e5043e7eed66&oe=5C6DE405'
                 }
               ]}
+              addChatMessage={this.addChatMessage}
             />
           </div>
         ) : (
