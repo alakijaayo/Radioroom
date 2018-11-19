@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App component matches the snapshot 1`] = `
+<div
+  className="App"
+>
+  <h1>
+    RadioRoom
+  </h1>
+  <div>
+    <h2>
+      To get started, please login via Spotify
+    </h2>
+    <p>
+      <strong>
+        Note:
+      </strong>
+       to enjoy the full experience of RadioRoom you need to have a Spotify Premium subscription
+    </p>
+    <a
+      className="spotify-login-btn"
+      href="http://localhost:8888"
+    >
+      Login to Spotify
+    </a>
+  </div>
+</div>
+`;
