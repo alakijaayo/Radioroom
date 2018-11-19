@@ -18,7 +18,7 @@ var io = require('socket.io')(http);
 const Queue = require('./src/queue.js');
 const queue = new Queue({ socket: io });
 
-let chat = []
+let chat = [];
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
 var client_id = process.env.CLIENT_ID;
@@ -172,6 +172,7 @@ app.get('/refresh_token', function(req, res) {
 
 io.on('connection', function(socket) {
   console.log('a user connected');
+  initialiseClient(socket.id);
   socket.on('disconnect', function() {
     console.log('user disconnected');
   });
@@ -187,12 +188,16 @@ io.on('connection', function(socket) {
   });
   socket.on('chat message', function(msg) {
     console.log(msg);
-    let newMsg = JSON.parse(msg)
-    newMsg.id = chat.length + 1
-    chat.push(newMsg)
-    socket.emit('Chat Updated', chat);
+    let newMsg = JSON.parse(msg);
+    newMsg.id = chat.length + 1;
+    chat.push(newMsg);
+    io.emit('Chat Updated', chat);
   });
 });
+
+const initialiseClient = socketId => {
+  //socket(socketId).emit('Chat Updated', chat);
+};
 
 http.listen(process.env.PORT || 8888, function() {
   console.log(`Listening on ${process.env.PORT || 8888}`);
