@@ -44,7 +44,9 @@ export default class QueuedTrack extends React.Component {
              disabled={this.state.isButtonDisabled}>
               Vote Up
             </button>
-            <button id='Downvote' onClick={this.onVote.bind(this, this.props.track.uri, -1)}>
+            <button id='Downvote'
+            onClick={this.onVote.bind(this, this.props.track.uri, -1)}
+            disabled={this.state.isButtonDisabled}>
               Vote Down
             </button>
             Votes: {this.props.track.votes}
