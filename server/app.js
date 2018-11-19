@@ -15,7 +15,8 @@ var cookieParser = require('cookie-parser');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
+const Queue = require('./src/queue.js');
+const queue = new Queue({ socket: io });
 
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
@@ -39,7 +40,6 @@ var generateRandomString = function(length) {
 };
 
 var stateKey = 'spotify_auth_state';
-
 
 app
   .use(express.static(__dirname + '/public'))
@@ -102,6 +102,11 @@ app.get('/callback', function(req, res) {
         var access_token = body.access_token,
           refresh_token = body.refresh_token;
 
+        var host =
+          process.env.NODE_ENV === 'production'
+            ? 'https://radioroom1.herokuapp.com/#'
+            : 'http://localhost:3000/#';
+
         var options = {
           url: 'https://api.spotify.com/v1/me',
           headers: { Authorization: 'Bearer ' + access_token },
@@ -110,22 +115,18 @@ app.get('/callback', function(req, res) {
 
         // use the access token to access the Spotify Web API
         request.get(options, function(error, response, body) {
-          console.log(body);
+          // we can also pass the token to the browser to make requests from there
+          res.redirect(
+            host +
+              querystring.stringify({
+                access_token: access_token,
+                refresh_token: refresh_token,
+                user_name: body.display_name,
+                user_id: body.id,
+                user_image_url: body.images[0].url
+              })
+          );
         });
-
-        var host =
-          process.env.NODE_ENV === 'production'
-            ? 'https://radioroom1.herokuapp.com/#'
-            : 'http://localhost:3000/#';
-
-        // we can also pass the token to the browser to make requests from there
-        res.redirect(
-          host +
-            querystring.stringify({
-              access_token: access_token,
-              refresh_token: refresh_token
-            })
-        );
       } else {
         res.redirect(
           '/#' +
@@ -168,19 +169,23 @@ app.get('/refresh_token', function(req, res) {
 // console.log(`Listening on ${process.env.PORT || 8888}`);
 // app.listen();
 
-io.on('connection', function(socket){
+io.on('connection', function(socket) {
   console.log('a user connected');
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function() {
     console.log('user disconnected');
   });
-  socket.on('add to queue', function(spotifyTrack){
-    let uri = JSON.parse(spotifyTrack).uri
-    console.log(uri)
-    io.emit('Play Track', uri)
-    console.log(spotifyTrack);
+  socket.on('add to queue', function(spotifyTrack) {
+    let track = JSON.parse(spotifyTrack);
+    queue.addTrack(track);
+  });
+  socket.on('vote up', function(uri) {
+    queue.vote(uri, 1);
+  });
+  socket.on('vote down', function(uri) {
+    queue.vote(uri, -1);
   });
 });
 
-http.listen(process.env.PORT || 8888, function(){
+http.listen(process.env.PORT || 8888, function() {
   console.log(`Listening on ${process.env.PORT || 8888}`);
 });

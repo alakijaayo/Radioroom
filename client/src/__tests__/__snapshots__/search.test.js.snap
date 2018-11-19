@@ -4,6 +4,9 @@ exports[`search component matches the snapshot 1`] = `
 <div
   className="search"
 >
+  <h2>
+    Search
+  </h2>
   <form
     onSubmit={[Function]}
   >
