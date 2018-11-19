@@ -6,7 +6,7 @@ import NowPlaying from './NowPlaying.js';
 import Queue from './Queue.js';
 import Search from './Search.js';
 import Player from './Player.js';
-import Chat from './Chat.js'
+import Chat from './Chat.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
@@ -134,6 +134,16 @@ class App extends Component {
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}
+            />
+            <Chat
+              messages={[
+                {
+                  id: 1,
+                  text: 'Hello radioroom!',
+                  user_url:
+                    'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/1381887_10201346045386534_973307961_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=469ec1722c45310e5fd3e5043e7eed66&oe=5C6DE405'
+                }
+              ]}
             />
           </div>
         ) : (

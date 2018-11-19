@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import posed, { PoseGroup } from 'react-pose'
+import posed, { PoseGroup } from 'react-pose';
 
 const Item = posed.li({});
 
-class Chat extends Component{
+class Chat extends Component {
   constructor(props) {
     super();
-    this.state = { message: '', messages: [{}] };
+    this.state = { message: '', messages: [{ id: 1 }] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -23,28 +23,28 @@ class Chat extends Component{
     return (
       <div className="messages">
         <h2>Chat</h2>
-          <form onSubmit={this.handleSubmit}>
-            <textarea rows="5" cols="50">
-            </textarea>
-            <input type="submit" value="Submit" />
-          </form>
-          <div className="messagelist">
+        <form onSubmit={this.handleSubmit}>
+          <textarea rows="5" cols="50" />
+          <input type="submit" value="Submit" />
+        </form>
+        <div className="messagelist">
+          {this.props.messages ? (
             <ul>
               <PoseGroup>
-                {this.state.messages.map(message => (
-                <Item key={message.id}>
-                  <div>
-                    <p>{message.text}</p>
-                    <img
-                      src={message.user_url}
-                      alt="user profile"
-                     />
-                  </div>
-                </Item>
-              ))}
+                {this.props.messages.map(message => (
+                  <Item key={message.id}>
+                    <div>
+                      <p>{message.text}</p>
+                      <img src={message.user_url} alt="user profile" />
+                    </div>
+                  </Item>
+                ))}
               </PoseGroup>
             </ul>
-          </div>
+          ) : (
+            ''
+          )}
+        </div>
       </div>
     );
   }
