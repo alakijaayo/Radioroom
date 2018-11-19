@@ -18,6 +18,7 @@ var io = require('socket.io')(http);
 const Queue = require('./src/queue.js');
 const queue = new Queue({ socket: io });
 
+let chat = []
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
 var client_id = process.env.CLIENT_ID;
@@ -186,6 +187,10 @@ io.on('connection', function(socket) {
   });
   socket.on('chat message', function(msg) {
     console.log(msg);
+    let newMsg = JSON.parse(msg)
+    newMsg.id = chat.length + 1
+    chat.push(newMsg)
+    socket.emit('Chat Updated', chat);
   });
 });
 

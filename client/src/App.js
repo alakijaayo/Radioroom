@@ -42,6 +42,15 @@ class App extends Component {
         });
       }.bind(this)
     );
+    socket.on(
+      'Chat Updated',
+      function(messages) {
+        console.log(messages);
+        this.setState({
+          chat: messages
+        });
+      }.bind(this)
+    );
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
     this.timerId = 0;
@@ -145,14 +154,7 @@ class App extends Component {
               addToPlaylist={this.addToPlaylist}
             />
             <Chat
-              messages={[
-                {
-                  id: 1,
-                  text: 'Hello radioroom!',
-                  user_url:
-                    'https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/1381887_10201346045386534_973307961_n.jpg?_nc_cat=110&_nc_ht=scontent.xx&oh=469ec1722c45310e5fd3e5043e7eed66&oe=5C6DE405'
-                }
-              ]}
+              messages= {this.state.chat}
               addChatMessage={this.addChatMessage}
             />
           </div>

@@ -12,7 +12,9 @@ exports[`Chat component matches the snapshot 1`] = `
   >
     <textarea
       cols="50"
+      onChange={[Function]}
       rows="5"
+      value=""
     />
     <input
       type="submit"
