@@ -26,6 +26,7 @@ class App extends Component {
         this.player.playTrack(track.uri);
         this.setState({
           nowPlaying: {
+            uri: track.uri,
             artist: track.artist,
             track: track.track,
             albumArt: track.artwork,
