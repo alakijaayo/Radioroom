@@ -6,6 +6,7 @@ import NowPlaying from './NowPlaying.js';
 import Queue from './Queue.js';
 import Search from './Search.js';
 import Player from './Player.js';
+import Chat from './Chat.js';
 import io from 'socket.io-client';
 
 const spotifyApi = new SpotifyWebApi();
@@ -41,6 +42,15 @@ class App extends Component {
         });
       }.bind(this)
     );
+    socket.on(
+      'Chat Updated',
+      function(messages) {
+        console.log(messages);
+        this.setState({
+          chat: messages
+        });
+      }.bind(this)
+    );
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
     this.timerId = 0;
@@ -55,6 +65,7 @@ class App extends Component {
     };
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
+    this.addChatMessage = this.addChatMessage.bind(this);
     this.vote = this.vote.bind(this);
   }
 
@@ -117,6 +128,14 @@ class App extends Component {
     socket.emit(msg, uri);
   }
 
+  addChatMessage(msg) {
+    let chatMsg = {
+      text: msg,
+      user_url: this.state.user.imageUrl
+    };
+    socket.emit('chat message', JSON.stringify(chatMsg));
+  }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'
@@ -133,6 +152,10 @@ class App extends Component {
             <Search
               spotifyApi={spotifyApi}
               addToPlaylist={this.addToPlaylist}
+            />
+            <Chat
+              messages= {this.state.chat}
+              addChatMessage={this.addChatMessage}
             />
           </div>
         ) : (
