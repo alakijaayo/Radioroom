@@ -27,6 +27,7 @@ class App extends Component {
     this.initialiseSocket = this.initialiseSocket.bind(this);
     this.syncClient = this.syncClient.bind(this);
     this.vote = this.vote.bind(this);
+    this.skip = this.skip.bind(this);
     this.initialiseSocket();
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
@@ -148,6 +149,11 @@ class App extends Component {
     const msg = vote === 1 ? 'vote up' : 'vote down';
     socket.emit(msg, uri);
   }
+
+  skip(uri, skip) {
+   const msg = skip;
+   socket.emit('skip', uri);
+ }
 
   render() {
     let host =
