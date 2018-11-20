@@ -31,9 +31,16 @@ describe('App component', () => {
     expect(linkToSpotify.length).toBe(1);
   });
 
-  // it('shows a track in the "Now Playing" section', () => {
-  //   const wrapper = shallow(<App />);
-  //   const title = wrapper.find('.songTitle').text();
-  //   expect(title).toContain('Now Playing: ');
-  // });
+  it('informs the person to sign in', () => {
+    const wrapper = shallow(<App />);
+    const inform = wrapper.find('h2').text();
+    expect(inform).toEqual('To get started, please login via Spotify')
+  })
+
+  it('warns users before loggin in', () => {
+    const wrapper = shallow(<App />);
+    const warning = wrapper.find('p').text();
+    expect(warning).toEqual("Note: To enjoy the full experience of RadioRoom you need to have a Spotify Premium subscription")
+  })
+
 });
