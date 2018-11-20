@@ -122,7 +122,7 @@ class App extends Component {
 
   skip(uri, skip) {
     const msg = skip;
-    socket.emit(msg, uri);
+    socket.emit('skip', uri);
   }
 
   render() {

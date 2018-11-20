@@ -52,6 +52,11 @@ class Queue {
     this.playCurrentTrack();
   }
 
+  skip() {
+    this.nowPlaying = this.queue.length > 0 ? this.queue.shift() : null;
+    this.playCurrentTrack();
+  }
+
   notifyNowPlaying() {
     this.socket.emit('Play Track', this.nowPlaying);
   }
