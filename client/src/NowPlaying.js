@@ -1,6 +1,5 @@
 import React from 'react';
-import Queue from './Queue.js';
-import App from './App.js'
+
 
 export default class NowPlaying extends React.Component {
   constructor(props) {

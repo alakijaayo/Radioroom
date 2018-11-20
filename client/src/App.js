@@ -151,7 +151,6 @@ class App extends Component {
   }
 
   skip(uri, skip) {
-   const msg = skip;
    socket.emit('skip', uri);
  }
 
