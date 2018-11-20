@@ -162,7 +162,7 @@ class App extends Component {
           <div>
             <h2>To get started, please login via Spotify</h2>
             <p>
-              <strong>Note:</strong> to enjoy the full experience of RadioRoom
+              <strong>Note:</strong> To enjoy the full experience of RadioRoom
               you need to have a Spotify Premium subscription
             </p>
             <a className="spotify-login-btn" href={host}>
