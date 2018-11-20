@@ -1,4 +1,6 @@
 import React from 'react';
+import Queue from './Queue.js';
+import App from './App.js'
 
 export default class NowPlaying extends React.Component {
   constructor(props) {
@@ -10,6 +12,7 @@ export default class NowPlaying extends React.Component {
    onSkip(track, skip) {
      this.props.skip();
    }
+
   render() {
     return (
       <div className="now-playing">

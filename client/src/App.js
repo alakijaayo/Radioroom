@@ -166,7 +166,7 @@ class App extends Component {
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <NowPlaying nowPlaying={this.state.nowPlaying} />
+            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip} />
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}
