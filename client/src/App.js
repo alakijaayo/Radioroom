@@ -37,7 +37,10 @@ class App extends Component {
       user: {
         name: params.user_name,
         id: params.user_id,
-        imageUrl: params.user_image_url
+        imageUrl:
+          params.user_image_url && params.user_image_url.length > 0
+            ? params.user_image_url
+            : `${process.env.PUBLIC_URL}/img/user.png`
       }
     };
   }

@@ -124,7 +124,7 @@ app.get('/callback', function(req, res) {
                 refresh_token: refresh_token,
                 user_name: body.display_name,
                 user_id: body.id,
-                user_image_url: body.images[0].url
+                user_image_url: body.images.length > 0 ? body.images[0].url : ''
               })
           );
         });
