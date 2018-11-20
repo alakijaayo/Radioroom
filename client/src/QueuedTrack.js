@@ -43,6 +43,11 @@ export default class QueuedTrack extends React.Component {
         ) : (
           ''
         )}
+        {this.props.track.user ? (
+          <h4>{this.props.track.user} added this track to the Playlist</h4>
+        ) : (
+          ''
+        )}
       </div>
     );
   }
