@@ -42,6 +42,7 @@ class Queue {
     }
     if (this.nowPlaying !== null) {
       this.timerId = setTimeout(this.playNextTrack, this.nowPlaying.duration);
+      this.nowPlaying.startTime = new Date().getTime();
       this.notifyNowPlaying();
       this.notifyQueueUpdated();
     }
@@ -53,7 +54,11 @@ class Queue {
   }
 
   notifyNowPlaying() {
-    this.socket.emit('Play Track', this.nowPlaying);
+    if (this.nowPlaying) {
+      this.nowPlaying.timeOffset =
+        new Date().getTime() - this.nowPlaying.startTime;
+      this.socket.emit('Play Track', this.nowPlaying);
+    }
   }
 
   notifyQueueUpdated() {
