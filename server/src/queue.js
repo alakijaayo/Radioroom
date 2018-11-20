@@ -43,13 +43,17 @@ class Queue {
     if (this.nowPlaying !== null) {
       this.timerId = setTimeout(this.playNextTrack, this.nowPlaying.duration);
       this.nowPlaying.startTime = new Date().getTime();
-      this.notifyNowPlaying();
-      this.notifyQueueUpdated();
     }
+    this.notifyNowPlaying();
   }
 
   playNextTrack() {
-    this.nowPlaying = this.queue.length > 0 ? this.queue.shift() : null;
+    if (this.queue.length > 0) {
+      this.nowPlaying = this.queue.shift();
+      this.notifyQueueUpdated();
+    } else {
+      this.nowPlaying = null;
+    }
     this.playCurrentTrack();
   }
 
@@ -57,8 +61,8 @@ class Queue {
     if (this.nowPlaying) {
       this.nowPlaying.timeOffset =
         new Date().getTime() - this.nowPlaying.startTime;
-      this.socket.emit('Play Track', this.nowPlaying);
     }
+    this.socket.emit('Play Track', this.nowPlaying);
   }
 
   notifyQueueUpdated() {

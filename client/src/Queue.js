@@ -10,7 +10,7 @@ export default class Queue extends React.Component {
     return (
       <div className="queued-tracks">
         <h2>Up Next</h2>
-        {tracks ? (
+        {tracks && tracks.length > 0 ? (
           <ul>
             <PoseGroup>
               {tracks.map(track => (
