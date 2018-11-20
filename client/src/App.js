@@ -72,6 +72,7 @@ class App extends Component {
     if (window.PlayerReady) {
       this.player = new Player(this.token);
       clearInterval(this.timerId);
+      //socket.emit('now playing');
     }
   }
 
