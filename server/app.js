@@ -172,19 +172,9 @@ app.get('/refresh_token', function(req, res) {
 
 io.on('connection', function(socket) {
   console.log('a user connected');
-  initialiseClient(socket.id);
-  socket.on('disconnect', function() {
-    console.log('user disconnected');
-  });
   socket.on('add to queue', function(spotifyTrack) {
     let track = JSON.parse(spotifyTrack);
     queue.addTrack(track);
-  });
-  socket.on('vote up', function(uri) {
-    queue.vote(uri, 1);
-  });
-  socket.on('vote down', function(uri) {
-    queue.vote(uri, -1);
   });
   socket.on('chat message', function(msg) {
     console.log(msg);
@@ -193,11 +183,25 @@ io.on('connection', function(socket) {
     chat.unshift(newMsg);
     io.emit('Chat Updated', chat);
   });
+  socket.on('disconnect', function() {
+    console.log('user disconnected');
+  });
+  socket.on('now playing', function(msg) {
+    queue.notifyNowPlaying();
+  });
+  socket.on('sync client', function(user) {
+    console.log(user);
+    //queue.notifyNowPlaying();
+    queue.notifyQueueUpdated();
+    io.emit('Chat Updated', chat);
+  });
+  socket.on('vote down', function(uri) {
+    queue.vote(uri, -1);
+  });
+  socket.on('vote up', function(uri) {
+    queue.vote(uri, 1);
+  });
 });
-
-const initialiseClient = socketId => {
-  //socket(socketId).emit('Chat Updated', chat);
-};
 
 http.listen(process.env.PORT || 8888, function() {
   console.log(`Listening on ${process.env.PORT || 8888}`);

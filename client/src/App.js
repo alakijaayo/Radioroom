@@ -20,40 +20,16 @@ class App extends Component {
   constructor() {
     super();
     const params = this.getHashParams();
-    socket.on(
-      'Play Track',
-      function(track) {
-        this.player.playTrack(track.uri);
-        this.setState({
-          nowPlaying: {
-            artist: track.artist,
-            track: track.track,
-            albumArt: track.artwork
-          }
-        });
-      }.bind(this)
-    );
-    socket.on(
-      'Queue Updated',
-      function(queue) {
-        console.log(queue);
-        this.setState({
-          upNext: queue
-        });
-      }.bind(this)
-    );
-    socket.on(
-      'Chat Updated',
-      function(messages) {
-        console.log(messages);
-        this.setState({
-          chat: messages
-        });
-      }.bind(this)
-    );
+    this.timerId = 0;
+    this.addChatMessage = this.addChatMessage.bind(this);
+    this.addToPlaylist = this.addToPlaylist.bind(this);
+    this.checkPlayerReady = this.checkPlayerReady.bind(this);
+    this.initialiseSocket = this.initialiseSocket.bind(this);
+    this.syncClient = this.syncClient.bind(this);
+    this.vote = this.vote.bind(this);
+    this.initialiseSocket();
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
-    this.timerId = 0;
     this.state = {
       loggedIn: this.token ? true : false,
       nowPlaying: { artist: '', track: '', albumArt: '' },
@@ -63,20 +39,41 @@ class App extends Component {
         imageUrl: params.user_image_url
       }
     };
-    this.addToPlaylist = this.addToPlaylist.bind(this);
-    this.checkPlayerReady = this.checkPlayerReady.bind(this);
-    this.addChatMessage = this.addChatMessage.bind(this);
-    this.vote = this.vote.bind(this);
   }
 
   componentDidMount() {
     if (this.token) {
       spotifyApi.setAccessToken(this.token);
-      if (window.PlayerReady) {
-        this.player = new Player(this.token);
-      } else {
-        this.timerId = setInterval(this.checkPlayerReady, 100);
-      }
+      this.timerId = setInterval(this.checkPlayerReady, 100);
+    }
+    this.syncClient();
+  }
+
+  addChatMessage(msg) {
+    let chatMsg = {
+      text: msg,
+      user_url: this.state.user.imageUrl
+    };
+    socket.emit('chat message', JSON.stringify(chatMsg));
+  }
+
+  addToPlaylist(spotifyTrack) {
+    let queuedTrack = {
+      uri: spotifyTrack.uri,
+      artist: spotifyTrack.artists[0].name,
+      track: spotifyTrack.name,
+      artwork: spotifyTrack.album.images[0].url,
+      duration: spotifyTrack.duration_ms,
+      user: this.state.user.name
+    };
+    socket.emit('add to queue', JSON.stringify(queuedTrack));
+  }
+
+  checkPlayerReady() {
+    if (window.PlayerReady) {
+      this.player = new Player(this.token);
+      clearInterval(this.timerId);
+      //socket.emit('now playing');
     }
   }
 
@@ -105,36 +102,38 @@ class App extends Component {
     });
   }
 
-  addToPlaylist(spotifyTrack) {
-    let queuedTrack = {
-      uri: spotifyTrack.uri,
-      artist: spotifyTrack.artists[0].name,
-      track: spotifyTrack.name,
-      artwork: spotifyTrack.album.images[0].url,
-      duration: spotifyTrack.duration_ms,
-      user: this.state.user.name
-    };
-    socket.emit('add to queue', JSON.stringify(queuedTrack));
+  initialiseSocket() {
+    socket.on('Play Track', track => {
+      this.player.playTrack(track.uri);
+      this.setState({
+        nowPlaying: {
+          artist: track.artist,
+          track: track.track,
+          albumArt: track.artwork
+        }
+      });
+    });
+    socket.on('Queue Updated', queue => {
+      console.log(queue);
+      this.setState({
+        upNext: queue
+      });
+    });
+    socket.on('Chat Updated', messages => {
+      console.log(messages);
+      this.setState({
+        chat: messages
+      });
+    });
   }
 
-  checkPlayerReady() {
-    if (window.PlayerReady) {
-      this.player = new Player(this.token);
-      clearInterval(this.timerId);
-    }
+  syncClient() {
+    socket.emit('sync client', JSON.stringify(this.state.user));
   }
 
   vote(uri, vote) {
     const msg = vote === 1 ? 'vote up' : 'vote down';
     socket.emit(msg, uri);
-  }
-
-  addChatMessage(msg) {
-    let chatMsg = {
-      text: msg,
-      user_url: this.state.user.imageUrl
-    };
-    socket.emit('chat message', JSON.stringify(chatMsg));
   }
 
   render() {
