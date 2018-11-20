@@ -37,7 +37,7 @@ describe('App component', () => {
     expect(inform).toEqual('To get started, please login via Spotify')
   })
 
-  it('warns users before loggin in', () => {
+  it('warns users before logging in', () => {
     const wrapper = shallow(<App />);
     const warning = wrapper.find('p').text();
     expect(warning).toEqual("Note: To enjoy the full experience of RadioRoom you need to have a Spotify Premium subscription")

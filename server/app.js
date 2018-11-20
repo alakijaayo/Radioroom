@@ -180,7 +180,7 @@ io.on('connection', function(socket) {
     console.log(msg);
     let newMsg = JSON.parse(msg);
     newMsg.id = chat.length + 1;
-    chat.push(newMsg);
+    chat.unshift(newMsg);
     io.emit('Chat Updated', chat);
   });
   socket.on('disconnect', function() {
