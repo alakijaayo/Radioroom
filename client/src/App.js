@@ -27,6 +27,7 @@ class App extends Component {
     this.initialiseSocket = this.initialiseSocket.bind(this);
     this.syncClient = this.syncClient.bind(this);
     this.vote = this.vote.bind(this);
+    this.skip = this.skip.bind(this);
     this.initialiseSocket();
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
@@ -149,6 +150,10 @@ class App extends Component {
     socket.emit(msg, uri);
   }
 
+  skip(uri, skip) {
+   socket.emit('skip', uri);
+ }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'
@@ -160,7 +165,7 @@ class App extends Component {
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <NowPlaying nowPlaying={this.state.nowPlaying} />
+            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip} />
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}

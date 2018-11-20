@@ -1,6 +1,17 @@
 import React from 'react';
 
+
 export default class NowPlaying extends React.Component {
+  constructor(props) {
+     super(props);
+     this.track = props.track;
+     this.onSkip = this.onSkip.bind(this);
+   }
+
+   onSkip(track, skip) {
+     this.props.skip();
+   }
+
   render() {
     return (
       <div className="now-playing">
@@ -14,6 +25,11 @@ export default class NowPlaying extends React.Component {
             />
             <div>{this.props.nowPlaying.track}</div>
             <div>by {this.props.nowPlaying.artist}</div>
+            <div>
+           <button onClick={this.onSkip.bind(this, this.props.nowPlaying.uri, )}>
+           Skip
+           </button>
+           </div>
           </div>
         ) : (
           <div>Silence...</div>

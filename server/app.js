@@ -195,6 +195,9 @@ io.on('connection', function(socket) {
   socket.on('vote up', function(uri) {
     queue.vote(uri, 1);
   });
+  socket.on('skip', function(uri) {
+     queue.playNextTrack(uri);
+   });
 });
 
 http.listen(process.env.PORT || 8888, function() {

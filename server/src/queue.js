@@ -57,6 +57,7 @@ class Queue {
     this.playCurrentTrack();
   }
 
+
   notifyNowPlaying() {
     if (this.nowPlaying) {
       this.nowPlaying.timeOffset =
