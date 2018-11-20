@@ -105,7 +105,7 @@ app.get('/callback', function(req, res) {
 
         var host =
           process.env.NODE_ENV === 'production'
-            ? 'https://radioroom1.herokuapp.com/#'
+            ? 'https://makersradioroom.herokuapp.com/#'
             : 'http://localhost:3000/#';
 
         var options = {
