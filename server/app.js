@@ -166,9 +166,6 @@ app.get('/refresh_token', function(req, res) {
     }
   });
 });
-//
-// console.log(`Listening on ${process.env.PORT || 8888}`);
-// app.listen();
 
 io.on('connection', function(socket) {
   console.log('a user connected');
@@ -177,7 +174,6 @@ io.on('connection', function(socket) {
     queue.addTrack(track);
   });
   socket.on('chat message', function(msg) {
-    console.log(msg);
     let newMsg = JSON.parse(msg);
     newMsg.id = chat.length + 1;
     chat.unshift(newMsg);
@@ -190,8 +186,6 @@ io.on('connection', function(socket) {
     queue.notifyNowPlaying();
   });
   socket.on('sync client', function(user) {
-    console.log(user);
-    //queue.notifyNowPlaying();
     queue.notifyQueueUpdated();
     io.emit('Chat Updated', chat);
   });

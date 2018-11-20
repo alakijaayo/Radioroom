@@ -1,5 +1,5 @@
 class Player {
-  constructor(token) {
+  constructor(token, onPlayerReady) {
     this.token = token;
     this.player = new window.Spotify.Player({
       name: 'RadioRoom Player',
@@ -33,6 +33,7 @@ class Player {
     this.player.addListener('ready', ({ device_id }) => {
       this.deviceId = device_id;
       console.log('Ready with Device ID', device_id);
+      onPlayerReady();
     });
 
     // Not Ready
@@ -43,13 +44,14 @@ class Player {
     // Connect to the this.player!
     this.player.connect();
   }
-  playTrack(uri) {
+  playTrack(uri, offset) {
     fetch(
       `https://api.spotify.com/v1/me/player/play?device_id=${this.deviceId}`,
       {
         method: 'PUT',
         body: JSON.stringify({
-          uris: [uri]
+          uris: [uri],
+          position_ms: offset
         }),
         headers: {
           'Content-Type': 'application/json',

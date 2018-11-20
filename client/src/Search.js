@@ -9,7 +9,6 @@ class Search extends Component {
     this.state = { value: '', tracks: [{}] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // console.log(props.addToPlaylist);
   }
   handleChange(event) {
     this.setState({ value: event.target.value });

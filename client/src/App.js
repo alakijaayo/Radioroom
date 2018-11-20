@@ -71,9 +71,8 @@ class App extends Component {
 
   checkPlayerReady() {
     if (window.PlayerReady) {
-      this.player = new Player(this.token);
+      this.player = new Player(this.token, this.onPlayerReady);
       clearInterval(this.timerId);
-      //socket.emit('now playing');
     }
   }
 
@@ -104,27 +103,41 @@ class App extends Component {
 
   initialiseSocket() {
     socket.on('Play Track', track => {
-      this.player.playTrack(track.uri);
-      this.setState({
-        nowPlaying: {
-          artist: track.artist,
-          track: track.track,
-          albumArt: track.artwork
-        }
-      });
+      if (track) {
+        this.player.playTrack(track.uri, track.timeOffset);
+        this.setState({
+          nowPlaying: {
+            artist: track.artist,
+            track: track.track,
+            albumArt: track.artwork
+          }
+        });
+      } else {
+        this.setState({
+          nowPlaying: {
+            artist: '',
+            track: '',
+            albumArt: ''
+          }
+        });
+      }
     });
+
     socket.on('Queue Updated', queue => {
-      console.log(queue);
       this.setState({
         upNext: queue
       });
     });
+
     socket.on('Chat Updated', messages => {
-      console.log(messages);
       this.setState({
         chat: messages
       });
     });
+  }
+
+  onPlayerReady() {
+    socket.emit('now playing');
   }
 
   syncClient() {
