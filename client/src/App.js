@@ -154,7 +154,7 @@ class App extends Component {
               addToPlaylist={this.addToPlaylist}
             />
             <Chat
-              messages= {this.state.chat}
+              messages={this.state.chat}
               addChatMessage={this.addChatMessage}
             />
           </div>
