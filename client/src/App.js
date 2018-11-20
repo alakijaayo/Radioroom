@@ -111,7 +111,8 @@ class App extends Component {
       artist: spotifyTrack.artists[0].name,
       track: spotifyTrack.name,
       artwork: spotifyTrack.album.images[0].url,
-      duration: spotifyTrack.duration_ms
+      duration: spotifyTrack.duration_ms,
+      user: this.state.user.name
     };
     socket.emit('add to queue', JSON.stringify(queuedTrack));
   }
