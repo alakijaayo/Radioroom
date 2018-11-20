@@ -73,16 +73,16 @@ describe('Queue', () => {
 
     test('should not allow track addition twice', () => {
       queue.addTrack(track);
-      expect(queue.getCurrentTrack()).toEqual(track)
+      expect(queue.getCurrentTrack()).toEqual(track);
       expect(queue.get().length).toEqual(0);
-    })
+    });
 
     test('should ignore track being added to queue twice', () => {
-      queue.addTrack(track2)
-      queue.addTrack(track2)
-      expect(queue.get()[0]).toEqual(track2)
+      queue.addTrack(track2);
+      queue.addTrack(track2);
+      expect(queue.get()[0]).toEqual(track2);
       expect(queue.get().length).toEqual(1);
-    })
+    });
   });
 
   describe('remove a track', () => {
@@ -153,7 +153,6 @@ describe('Queue', () => {
       queue.vote(track2.uri, 2);
       queue.vote(track4.uri, 3);
       queue.vote(track5.uri, -1);
-      console.log(queue.get());
     });
     test('the now playing track should not move', () => {
       expect(queue.getCurrentTrack()).toBe(track3);
