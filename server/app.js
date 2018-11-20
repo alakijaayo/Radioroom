@@ -196,7 +196,7 @@ io.on('connection', function(socket) {
     queue.vote(uri, 1);
   });
   socket.on('skip', function(uri) {
-     queue.skip(uri);
+     queue.playNextTrack(uri);
    });
 });
 

@@ -15,7 +15,6 @@ class Queue {
     this.playCurrentTrack = this.playCurrentTrack.bind(this);
     this.playNextTrack = this.playNextTrack.bind(this);
     this.sortNextByVotes = this.sortNextByVotes.bind(this);
-    this.skip = this.skip.bind(this);
   }
 
   addTrack(track) {
@@ -58,15 +57,6 @@ class Queue {
     this.playCurrentTrack();
   }
 
-  skip() {
-    if (this.queue.length > 0) {
-      this.nowPlaying = this.queue.shift();
-      this.notifyQueueUpdated();
-    } else {
-      this.nowPlaying = null;
-    }
-    this.playCurrentTrack();
-  }
 
   notifyNowPlaying() {
     if (this.nowPlaying) {
