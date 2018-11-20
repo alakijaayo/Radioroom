@@ -19,13 +19,13 @@ class Queue {
 
   addTrack(track) {
     let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0 });
-    if (this.nowPlaying === null) {
-      this.nowPlaying = newTrack;
-      this.playCurrentTrack();
-    } else {
-      this.queue.push(newTrack);
-      this.notifyQueueUpdated();
-    }
+      if (this.nowPlaying === null) {
+        this.nowPlaying = newTrack;
+        this.playCurrentTrack();
+      } else if ((this.nowPlaying.uri !== newTrack.uri) && !(this.queue.some(t => t.uri === newTrack.uri))) {
+        this.queue.push(newTrack);
+        this.notifyQueueUpdated();
+        }
   }
 
   get() {

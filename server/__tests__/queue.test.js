@@ -70,6 +70,19 @@ describe('Queue', () => {
     test('track should have date added', () => {
       expect(queue.getCurrentTrack().addedOn).toEqual(new Date());
     });
+
+    test('should not allow track addition twice', () => {
+      queue.addTrack(track);
+      expect(queue.getCurrentTrack()).toEqual(track)
+      expect(queue.get().length).toEqual(0);
+    })
+
+    test('should ignore track being added to queue twice', () => {
+      queue.addTrack(track2)
+      queue.addTrack(track2)
+      expect(queue.get()[0]).toEqual(track2)
+      expect(queue.get().length).toEqual(1);
+    })
   });
 
   describe('remove a track', () => {
