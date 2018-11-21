@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SearchTracks from './SearchTracks.js';
-import './App.css';
 
 class Search extends Component {
   constructor(props) {
