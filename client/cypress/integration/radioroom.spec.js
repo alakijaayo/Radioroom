@@ -10,6 +10,7 @@ describe('homepage', () => {
     cy.visit("http://localhost:3000")
     cy.contains('Login to Spotify').click()
     cy.url().should('eq', 'http://localhost:8888/')
+    cy.contains('RadioRoom Sign In:')
 })
 
 })
