@@ -190,11 +190,10 @@ io.on('connection', function(socket) {
   socket.on('sync client', function(user) {
     queue.notifyQueueUpdated();
     io.emit('Chat Updated', chat);
-    if ( !(users.some(u => u.id === user.id )))
-    {
+    if (!users.some(u => u.id === user.id)) {
       users.push(user);
     }
-    console.log(user)
+    console.log(user);
     io.emit('User Joined Radioroom', user);
     io.emit('Update Users', users);
   });
@@ -205,11 +204,12 @@ io.on('connection', function(socket) {
     queue.vote(uri, 1);
   });
   socket.on('skip', function(uri) {
-     queue.getCurrentTrack().skipCount++
-     console.log( queue.getCurrentTrack().skipCount)
-     if (queue.getCurrentTrack().skipCount >= (users.length / 2))
-     {queue.playNextTrack(uri);}
-   });
+    queue.getCurrentTrack().skipCount++;
+    console.log(queue.getCurrentTrack().skipCount);
+    if (queue.getCurrentTrack().skipCount >= users.length / 2) {
+      queue.playNextTrack(uri);
+    }
+  });
 });
 
 http.listen(process.env.PORT || 8888, function() {
