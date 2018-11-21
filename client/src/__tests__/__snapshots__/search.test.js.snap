@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`search component matches the snapshot 1`] = `
-<div
-  className="search"
->
+<div>
   <h2>
     Search
   </h2>
