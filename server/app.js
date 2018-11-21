@@ -205,7 +205,10 @@ io.on('connection', function(socket) {
     queue.vote(uri, 1);
   });
   socket.on('skip', function(uri) {
-     queue.playNextTrack(uri);
+     queue.getCurrentTrack().skipCount++
+     console.log( queue.getCurrentTrack().skipCount)
+     if (queue.getCurrentTrack().skipCount >= (users.length / 2))
+     {queue.playNextTrack(uri);}
    });
 });
 

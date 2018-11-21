@@ -20,7 +20,7 @@ class Queue {
   }
 
   addTrack(track) {
-    let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0 });
+    let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0, skipCount: 0});
     if (this.nowPlaying === null) {
       this.nowPlaying = newTrack;
       this.playCurrentTrack();

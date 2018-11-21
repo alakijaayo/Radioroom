@@ -41,7 +41,9 @@ class App extends Component {
           params.user_image_url && params.user_image_url.length > 0
             ? params.user_image_url
             : `${process.env.PUBLIC_URL}/img/user.png`
-      }
+      },
+      users: []
+
     };
   }
 
@@ -158,9 +160,7 @@ class App extends Component {
     socket.emit('now playing');
   }
 
-  // usersByCount() {
-  // return this.user_count
-  // }
+
 
   syncClient() {
     socket.emit('sync client', JSON.stringify(this.state.user));
@@ -184,11 +184,12 @@ class App extends Component {
     return (
       <div className="App">
         <h1>RadioRoom</h1>
-        <h3>Users:{this.state.user_count}</h3>
+        <h3>Users:{this.state.users.length}</h3>
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip} />
+            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip}
+            usercount={this.state.users.length} votecount={this.state.vote}/>
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}
