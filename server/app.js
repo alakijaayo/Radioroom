@@ -20,6 +20,7 @@ const queue = new Queue({ socket: io });
 
 let chat = [];
 let users = [];
+let userCount = 0;
 
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
@@ -171,6 +172,8 @@ app.get('/refresh_token', function(req, res) {
 
 io.on('connection', function(socket) {
   console.log('a user connected');
+  userCount++;
+  io.emit('userCount', { userCount: userCount });
   socket.on('add to queue', function(spotifyTrack) {
     let track = JSON.parse(spotifyTrack);
     queue.addTrack(track);
@@ -183,6 +186,8 @@ io.on('connection', function(socket) {
   });
   socket.on('disconnect', function() {
     console.log('user disconnected');
+    userCount--;
+    io.emit('userCount', { userCount: userCount });
   });
   socket.on('now playing', function(msg) {
     queue.notifyNowPlaying();
@@ -190,11 +195,10 @@ io.on('connection', function(socket) {
   socket.on('sync client', function(user) {
     queue.notifyQueueUpdated();
     io.emit('Chat Updated', chat);
-    if ( !(users.some(u => u.id === user.id )))
-    {
+    if (!users.some(u => u.id === user.id)) {
       users.push(user);
     }
-    console.log(user)
+    console.log(user);
     io.emit('User Joined Radioroom', user);
     io.emit('Update Users', users);
   });
@@ -205,11 +209,12 @@ io.on('connection', function(socket) {
     queue.vote(uri, 1);
   });
   socket.on('skip', function(uri) {
-     queue.getCurrentTrack().skipCount++
-     console.log( queue.getCurrentTrack().skipCount)
-     if (queue.getCurrentTrack().skipCount >= (users.length / 2))
-     {queue.playNextTrack(uri);}
-   });
+    queue.getCurrentTrack().skipCount++;
+    console.log(queue.getCurrentTrack().skipCount);
+    if (queue.getCurrentTrack().skipCount >= userCount / 2) {
+      queue.playNextTrack(uri);
+    }
+  });
 });
 
 http.listen(process.env.PORT || 8888, function() {
