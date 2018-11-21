@@ -139,6 +139,10 @@ class App extends Component {
       });
     });
 
+    socket.on('userCount', data => {
+      this.setState({ userCount: data.userCount });
+    });
+
     socket.on('Queue Updated', queue => {
       this.setState({
         upNext: queue
@@ -177,7 +181,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>RadioRoom</h1>
-        <h3>Users:{this.state.users.length}</h3>
+        <h3>Users:{this.state.userCount}</h3>
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />

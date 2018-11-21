@@ -20,6 +20,7 @@ const queue = new Queue({ socket: io });
 
 let chat = [];
 let users = [];
+let userCount = 0;
 
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
@@ -171,6 +172,8 @@ app.get('/refresh_token', function(req, res) {
 
 io.on('connection', function(socket) {
   console.log('a user connected');
+  userCount++;
+  io.emit('userCount', { userCount: userCount });
   socket.on('add to queue', function(spotifyTrack) {
     let track = JSON.parse(spotifyTrack);
     queue.addTrack(track);
@@ -183,6 +186,8 @@ io.on('connection', function(socket) {
   });
   socket.on('disconnect', function() {
     console.log('user disconnected');
+    userCount--;
+    io.emit('userCount', { userCount: userCount });
   });
   socket.on('now playing', function(msg) {
     queue.notifyNowPlaying();
