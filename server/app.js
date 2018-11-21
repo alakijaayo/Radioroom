@@ -20,6 +20,7 @@ const queue = new Queue({ socket: io });
 
 let chat = [];
 let users = [];
+
 //Use dotnev to read .env vars into Node
 require('dotenv').config();
 var client_id = process.env.CLIENT_ID;
@@ -189,7 +190,11 @@ io.on('connection', function(socket) {
   socket.on('sync client', function(user) {
     queue.notifyQueueUpdated();
     io.emit('Chat Updated', chat);
-    users.push(user);
+    if ( !(users.some(u => u.id === user.id )))
+    {
+      users.push(user);
+    }
+    console.log(user)
     io.emit('User Joined Radioroom', user);
     io.emit('Update Users', users);
   });

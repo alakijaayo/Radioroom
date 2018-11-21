@@ -41,6 +41,7 @@ class App extends Component {
     };
   }
 
+
   componentDidMount() {
     if (this.token) {
       spotifyApi.setAccessToken(this.token);
@@ -123,6 +124,19 @@ class App extends Component {
       }
     });
 
+    socket.on('User Joined Radioroom', user => {
+      console.log('user.name joined room')
+    })
+
+    socket.on('Update Users', users => {
+      this.setState({
+        users: users
+      })
+      console.log(users)
+    });
+
+
+
     socket.on('Queue Updated', queue => {
       this.setState({
         upNext: queue
@@ -140,8 +154,13 @@ class App extends Component {
     socket.emit('now playing');
   }
 
+  // usersByCount() {
+  // return this.user_count
+  // }
+
   syncClient() {
     socket.emit('sync client', JSON.stringify(this.state.user));
+
   }
 
   vote(uri, vote) {
@@ -157,6 +176,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>RadioRoom</h1>
+        <h3>Users:{this.state.user_count}</h3>
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />

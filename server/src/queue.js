@@ -1,5 +1,6 @@
 class Queue {
   constructor(props = {}) {
+    this.user_count = 0
     this.queue = [];
     this.nowPlaying = null;
     this.socket;
@@ -27,6 +28,9 @@ class Queue {
       this.notifyQueueUpdated();
     }
   }
+
+
+
 
   get() {
     return this.queue.slice(0);
