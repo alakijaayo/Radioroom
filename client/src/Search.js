@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import SearchTracks from './SearchTracks.js';
-import './App.css';
 
 class Search extends Component {
   constructor(props) {
@@ -9,6 +8,7 @@ class Search extends Component {
     this.state = { value: '', tracks: [{}] };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
   handleChange(event) {
     this.setState({ value: event.target.value });
@@ -19,6 +19,11 @@ class Search extends Component {
     this.spotifyApi.search(this.state.value, ['track']).then(response => {
       this.setState({ value: '', tracks: response.tracks.items });
     });
+  }
+
+  removeTrack(uri) {
+    let filteredTracks = this.state.tracks.filter(track => track.uri !== uri);
+    this.setState({ tracks: filteredTracks });
   }
 
   render() {
@@ -39,6 +44,7 @@ class Search extends Component {
         <SearchTracks
           tracks={this.state.tracks}
           addToPlaylist={this.props.addToPlaylist}
+          removeTrack={this.removeTrack}
         />
       </div>
     );
