@@ -27,6 +27,7 @@ class App extends Component {
     this.initialiseSocket = this.initialiseSocket.bind(this);
     this.syncClient = this.syncClient.bind(this);
     this.vote = this.vote.bind(this);
+    this.skip = this.skip.bind(this);
     this.initialiseSocket();
     this.token = params.access_token;
     this.refreshToken = params.refresh_token;
@@ -36,7 +37,10 @@ class App extends Component {
       user: {
         name: params.user_name,
         id: params.user_id,
-        imageUrl: params.user_image_url
+        imageUrl:
+          params.user_image_url && params.user_image_url.length > 0
+            ? params.user_image_url
+            : `${process.env.PUBLIC_URL}/img/user.png`
       }
     };
   }
@@ -168,6 +172,10 @@ class App extends Component {
     socket.emit(msg, uri);
   }
 
+  skip(uri, skip) {
+   socket.emit('skip', uri);
+ }
+
   render() {
     let host =
       process.env.NODE_ENV === 'production'
@@ -180,7 +188,7 @@ class App extends Component {
         {this.state.loggedIn ? (
           <div>
             <User user={this.state.user} />
-            <NowPlaying nowPlaying={this.state.nowPlaying} />
+            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip} />
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
               spotifyApi={spotifyApi}

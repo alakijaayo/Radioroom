@@ -126,7 +126,7 @@ app.get('/callback', function(req, res) {
                 refresh_token: refresh_token,
                 user_name: body.display_name,
                 user_id: body.id,
-                user_image_url: body.images[0].url
+                user_image_url: body.images.length > 0 ? body.images[0].url : ''
               })
           );
         });
@@ -204,6 +204,9 @@ io.on('connection', function(socket) {
   socket.on('vote up', function(uri) {
     queue.vote(uri, 1);
   });
+  socket.on('skip', function(uri) {
+     queue.playNextTrack(uri);
+   });
 });
 
 http.listen(process.env.PORT || 8888, function() {
