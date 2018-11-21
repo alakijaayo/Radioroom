@@ -23,7 +23,7 @@ class Search extends Component {
 
   render() {
     return (
-      <div className="search">
+      <div>
         <h2>Search</h2>
         <form onSubmit={this.handleSubmit}>
           <label>
