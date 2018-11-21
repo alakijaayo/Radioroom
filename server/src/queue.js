@@ -1,5 +1,6 @@
 class Queue {
   constructor(props = {}) {
+    this.user_count = 0
     this.queue = [];
     this.nowPlaying = null;
     this.socket;
@@ -19,7 +20,7 @@ class Queue {
   }
 
   addTrack(track) {
-    let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0 });
+    let newTrack = Object.assign(track, { addedOn: new Date(), votes: 0, skipCount: 0});
     if (this.nowPlaying === null) {
       this.nowPlaying = newTrack;
       this.playCurrentTrack();
@@ -31,6 +32,9 @@ class Queue {
       this.notifyQueueUpdated();
     }
   }
+
+
+
 
   get() {
     return this.queue.slice(0);

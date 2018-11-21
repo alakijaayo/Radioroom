@@ -7,6 +7,10 @@ exports[`App component matches the snapshot 1`] = `
   <h1>
     RadioRoom
   </h1>
+  <h3>
+    Users:
+    0
+  </h3>
   <div>
     <h2>
       To get started, please login via Spotify
