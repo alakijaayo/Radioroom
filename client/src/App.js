@@ -117,7 +117,8 @@ class App extends Component {
             artist: track.artist,
             track: track.track,
             albumArt: track.artwork
-          }
+          },
+          skipEnable: false
         });
       } else {
         this.setState({
@@ -174,6 +175,7 @@ class App extends Component {
 
   skip(uri, skip) {
    socket.emit('skip', uri);
+   this.setState({skipEnable: false});
  }
 
   render() {
@@ -189,6 +191,7 @@ class App extends Component {
           <div>
             <User user={this.state.user} />
             <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip}
+            skipEnable={this.state.skipEnable}
             usercount={this.state.users.length} votecount={this.state.vote}/>
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
