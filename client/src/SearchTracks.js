@@ -12,6 +12,7 @@ export default class SearchTracks extends React.Component {
             key={track.id || 'unique_dummy_id'}
             track={track}
             addToPlaylist={this.props.addToPlaylist}
+            removeTrack={this.props.removeTrack}
           />
         ))}
       </div>

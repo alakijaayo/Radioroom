@@ -8,6 +8,7 @@ export default class SearchTrack extends React.Component {
   }
   onAddToPlaylist() {
     this.props.addToPlaylist(this.track);
+    this.props.removeTrack(this.track.uri);
   }
   render() {
     return (
