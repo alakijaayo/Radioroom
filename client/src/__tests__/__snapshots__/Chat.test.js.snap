@@ -7,22 +7,45 @@ exports[`Chat component matches the snapshot 1`] = `
   <h2>
     Chat
   </h2>
-  <form
-    onSubmit={[Function]}
-  >
-    <textarea
-      cols="50"
-      onChange={[Function]}
-      rows="5"
-      value=""
-    />
-    <input
-      type="submit"
-      value="Submit"
-    />
-  </form>
   <div
-    className="messagelist"
+    className="mx-auto"
+    style={
+      Object {
+        "maxWidth": 800,
+      }
+    }
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <div
+        className="input-group"
+      >
+        <textarea
+          className="form-control"
+          cols="25"
+          onChange={[Function]}
+          rows="3"
+          value=""
+        />
+        <div
+          className="input-group-append"
+        >
+          <input
+            type="submit"
+            value="Submit"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div
+    className="messagelist list-group mx-auto"
+    style={
+      Object {
+        "maxWidth": 800,
+      }
+    }
   >
     
   </div>

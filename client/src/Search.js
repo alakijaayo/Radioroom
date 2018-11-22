@@ -31,14 +31,11 @@ class Search extends Component {
       <div className="search">
         <h2>Search</h2>
         <form onSubmit={this.handleSubmit}>
-          <label>
-            Search Track:
-            <input
-              type="text"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-          </label>
+          <input
+            type="text"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
           <input type="submit" value="Submit" />
         </form>
         <SearchTracks

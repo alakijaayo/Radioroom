@@ -25,24 +25,47 @@ class Chat extends Component {
     return (
       <div className="messages">
         <h2>Chat</h2>
-        <form onSubmit={this.handleSubmit}>
-          <textarea
-            rows="5"
-            cols="50"
-            value={this.state.message}
-            onChange={this.handleChange}
-          />
-          <input type="submit" value="Submit" />
-        </form>
-        <div className="messagelist">
+        <div className="mx-auto" style={{ maxWidth: 800 }}>
+          <form onSubmit={this.handleSubmit}>
+            <div className="input-group">
+              <textarea
+                className="form-control"
+                rows="3"
+                cols="25"
+                value={this.state.message}
+                onChange={this.handleChange}
+              />
+              <div className="input-group-append">
+                <input type="submit" value="Submit" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div
+          className="messagelist list-group mx-auto"
+          style={{ maxWidth: 800 }}
+        >
           {this.props.messages ? (
             <ul>
               <PoseGroup>
                 {this.props.messages.map(message => (
                   <Item key={message.id}>
-                    <div id={message.id}>
-                      <p>{message.text}</p>
-                      <img src={message.user_url} alt="user profile" />
+                    <div
+                      id={message.id}
+                      className="list-group-item mx-auto border-1 pl-40 py-0 d-flex align-items-center"
+                      style={{ borderRadius: 80, minHeight: 80 }}
+                    >
+                      <div className="align-self-left  py-auto px-50 flex-grow-1">
+                        {message.text}
+                      </div>
+                      <div>
+                        <img
+                          src={message.user_url}
+                          alt="user profile"
+                          className="rounded-circle align-self-right "
+                          style={{ height: 80 }}
+                        />
+                      </div>
                     </div>
                   </Item>
                 ))}

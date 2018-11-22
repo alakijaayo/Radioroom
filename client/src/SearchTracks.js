@@ -8,12 +8,15 @@ export default class SearchTracks extends React.Component {
   render() {
     const { tracks } = this.props;
     return (
-      <div className="tracks">
+      <div className="tracks list-group mx-auto" style={{ maxWidth: 800 }}>
         {tracks && tracks.length > 0 ? (
           <ul>
             <PoseGroup>
               {tracks.map(track => (
-                <Item key={track.id || 'unique_dummy_id'}>
+                <Item
+                  className="list-group-item border-0"
+                  key={track.id || 'unique_dummy_id'}
+                >
                   <SearchTrack
                     key={track.id || 'unique_dummy_id'}
                     track={track}

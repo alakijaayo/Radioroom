@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
 import SpotifyWebApi from 'spotify-web-api-js';
-import User from './User.js';
 import NowPlaying from './NowPlaying.js';
 import Queue from './Queue.js';
 import Search from './Search.js';
@@ -130,7 +129,7 @@ class App extends Component {
     });
 
     socket.on('User Joined Radioroom', user => {
-      console.log(`${JSON.parse(user).name} joined room`);
+      console.log(`${user.name} joined room`);
     });
 
     socket.on('Update Users', users => {
@@ -171,11 +170,9 @@ class App extends Component {
   }
 
   skip(uri, skip) {
-
-   socket.emit('skip', uri);
-   this.setState({skipEnable: false});
- }
-
+    socket.emit('skip', uri);
+    this.setState({ skipEnable: false });
+  }
 
   render() {
     let host =
@@ -184,15 +181,41 @@ class App extends Component {
         : 'http://localhost:8888';
     return (
       <div className="App">
-        <h1>RadioRoom</h1>
-        <h3>Users:{this.state.userCount}</h3>
+        <div className="d-flex w-100">
+          <div className="align-self-center">
+            <img src="/favicons/favicon-96x96.png" alt="user profile" />
+          </div>
+          <div className="align-self-center flex-grow-1">
+            <h1 className="text-left">RadioRoom</h1>
+          </div>
+          {this.state.loggedIn ? (
+            <div
+              className="align-self-center badge badge-success"
+              style={{ backgroundColor: '#7ED321', fontSize: 20 }}
+            >
+              Users: {this.state.userCount}
+            </div>
+          ) : (
+            ''
+          )}
+          <div>
+            <img
+              className="align-self-center rounded-circle"
+              src={this.state.user.imageUrl}
+              alt="user profile"
+              style={{ height: 96 }}
+            />
+          </div>
+        </div>
         {this.state.loggedIn ? (
           <div>
-            <User user={this.state.user} />
-
-            <NowPlaying nowPlaying={this.state.nowPlaying} skip={this.skip}
-            skipEnable={this.state.skipEnable}
-            usercount={this.state.users.length} votecount={this.state.vote}/>
+            <NowPlaying
+              nowPlaying={this.state.nowPlaying}
+              skip={this.skip}
+              skipEnable={this.state.skipEnable}
+              usercount={this.state.users.length}
+              votecount={this.state.vote}
+            />
 
             <Queue tracks={this.state.upNext} vote={this.vote} />
             <Search
