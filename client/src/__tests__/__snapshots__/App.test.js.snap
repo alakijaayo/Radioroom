@@ -9,7 +9,6 @@ exports[`App component matches the snapshot 1`] = `
   </h1>
   <h3>
     Users:
-    0
   </h3>
   <div>
     <h2>

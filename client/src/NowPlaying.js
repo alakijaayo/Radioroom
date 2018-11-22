@@ -6,14 +6,10 @@ export default class NowPlaying extends React.Component {
      super(props);
      this.track = props.track;
      this.onSkip = this.onSkip.bind(this);
-     this.state = {isButtonDisabled: false};
    }
 
    onSkip(track, skip) {
      this.props.skip();
-     this.setState({
-       isButtonDisabled: true
-     });
    }
 
 
@@ -36,7 +32,7 @@ export default class NowPlaying extends React.Component {
             <div>by {this.props.nowPlaying.artist}</div>
             <div>
            <button onClick={this.onSkip.bind(this, this.props.nowPlaying.uri, )}
-           disabled={this.state.isButtonDisabled}>
+           disabled={this.props.skipEnable}>
            Skip
            </button>
            </div>

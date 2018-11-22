@@ -213,7 +213,7 @@ io.on('connection', function(socket) {
   socket.on('skip', function(uri) {
     queue.getCurrentTrack().skipCount++;
     console.log(queue.getCurrentTrack().skipCount);
-    if (queue.getCurrentTrack().skipCount >= users.length / 2) {
+    if (queue.getCurrentTrack().skipCount >= userCount / 2) {
       queue.playNextTrack(uri);
     }
   });
