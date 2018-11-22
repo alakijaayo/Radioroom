@@ -7,6 +7,7 @@ import Search from './Search.js';
 import Player from './Player.js';
 import Chat from './Chat.js';
 import io from 'socket.io-client';
+//import $ from 'jquery';
 
 const spotifyApi = new SpotifyWebApi();
 const socket = io(
@@ -24,6 +25,9 @@ class App extends Component {
     this.addToPlaylist = this.addToPlaylist.bind(this);
     this.checkPlayerReady = this.checkPlayerReady.bind(this);
     this.initialiseSocket = this.initialiseSocket.bind(this);
+    this.showChat = this.showChat.bind(this);
+    this.showNowPlaying = this.showNowPlaying.bind(this);
+    this.showSearch = this.showSearch.bind(this);
     this.syncClient = this.syncClient.bind(this);
     this.vote = this.vote.bind(this);
     this.skip = this.skip.bind(this);
@@ -41,7 +45,12 @@ class App extends Component {
             ? params.user_image_url
             : `${process.env.PUBLIC_URL}/img/user.png`
       },
-      users: []
+      users: [],
+      visibility: {
+        chat: false,
+        playing: true,
+        search: false
+      }
     };
   }
 
@@ -160,6 +169,36 @@ class App extends Component {
     socket.emit('now playing');
   }
 
+  showChat() {
+    this.setState({
+      visibility: {
+        chat: true,
+        playing: false,
+        search: false
+      }
+    });
+  }
+
+  showNowPlaying() {
+    this.setState({
+      visibility: {
+        chat: false,
+        playing: true,
+        search: false
+      }
+    });
+  }
+
+  showSearch() {
+    this.setState({
+      visibility: {
+        chat: false,
+        playing: false,
+        search: true
+      }
+    });
+  }
+
   syncClient() {
     socket.emit('sync client', JSON.stringify(this.state.user));
   }
@@ -209,23 +248,41 @@ class App extends Component {
         </div>
         {this.state.loggedIn ? (
           <div>
-            <NowPlaying
-              nowPlaying={this.state.nowPlaying}
-              skip={this.skip}
-              skipEnable={this.state.skipEnable}
-              usercount={this.state.users.length}
-              votecount={this.state.vote}
-            />
+            {this.state.visibility.playing ? (
+              <div id="now-playing">
+                <NowPlaying
+                  nowPlaying={this.state.nowPlaying}
+                  skip={this.skip}
+                  skipEnable={this.state.skipEnable}
+                  usercount={this.state.users.length}
+                  votecount={this.state.vote}
+                />
 
-            <Queue tracks={this.state.upNext} vote={this.vote} />
-            <Search
-              spotifyApi={spotifyApi}
-              addToPlaylist={this.addToPlaylist}
-            />
-            <Chat
-              messages={this.state.chat}
-              addChatMessage={this.addChatMessage}
-            />
+                <Queue tracks={this.state.upNext} vote={this.vote} />
+              </div>
+            ) : (
+              ''
+            )}
+            {this.state.visibility.search ? (
+              <div id="search">
+                <Search
+                  spotifyApi={spotifyApi}
+                  addToPlaylist={this.addToPlaylist}
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            {this.state.visibility.chat ? (
+              <div id="chat">
+                <Chat
+                  messages={this.state.chat}
+                  addChatMessage={this.addChatMessage}
+                />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
         ) : (
           <div>
@@ -239,6 +296,38 @@ class App extends Component {
             </a>
           </div>
         )}
+        <div className="fixed-bottom px-auto w-100">
+          <div
+            className="btn-group btn-group-lg"
+            role="group"
+            aria-label="Navigation Chat, Home and Search"
+          >
+            <button
+              type="button"
+              data-toggle="button"
+              className="btn btn-secondary m-0"
+              onClick={this.showChat}
+            >
+              Chat
+            </button>
+            <button
+              type="button"
+              data-toggle="button"
+              className="btn btn-secondary active m-0"
+              onClick={this.showNowPlaying}
+            >
+              Now Playing
+            </button>
+            <button
+              type="button"
+              data-toggle="button"
+              className="btn btn-secondary m-0"
+              onClick={this.showSearch}
+            >
+              Search
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

@@ -36,7 +36,7 @@ class Search extends Component {
             value={this.state.value}
             onChange={this.handleChange}
           />
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Submit" className="btn btn-secondary" />
         </form>
         <SearchTracks
           tracks={this.state.tracks}
