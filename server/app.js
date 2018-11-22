@@ -193,14 +193,16 @@ io.on('connection', function(socket) {
     queue.notifyNowPlaying();
   });
   socket.on('sync client', function(user) {
-    queue.notifyQueueUpdated();
-    io.emit('Chat Updated', chat);
-    if (!users.some(u => u.id === user.id)) {
-      users.push(user);
+    let userObj = JSON.parse(user);
+    if (userObj.id) {
+      queue.notifyQueueUpdated();
+      io.emit('Chat Updated', chat);
+      if (users.some(u => u.id === userObj.id) === false) {
+        users.push(userObj);
+      }
+      io.emit('User Joined Radioroom', userObj);
+      io.emit('Update Users', users);
     }
-    console.log(user);
-    io.emit('User Joined Radioroom', user);
-    io.emit('Update Users', users);
   });
   socket.on('vote down', function(uri) {
     queue.vote(uri, -1);

@@ -129,7 +129,7 @@ class App extends Component {
     });
 
     socket.on('User Joined Radioroom', user => {
-      console.log(`${JSON.parse(user).name} joined room`);
+      console.log(`${user.name} joined room`);
     });
 
     socket.on('Update Users', users => {
@@ -181,9 +181,9 @@ class App extends Component {
     return (
       <div className="App">
         <h1>RadioRoom</h1>
-        <h3>Users:{this.state.userCount}</h3>
         {this.state.loggedIn ? (
           <div>
+            <h3>Users:{this.state.userCount}</h3>
             <User user={this.state.user} />
             <NowPlaying
               nowPlaying={this.state.nowPlaying}
