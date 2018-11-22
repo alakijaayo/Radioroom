@@ -8,13 +8,13 @@ export default class Queue extends React.Component {
   render() {
     const { tracks } = this.props;
     return (
-      <div className="queued-tracks">
+      <div className="queued-tracks list-group">
         <h2>Up Next</h2>
         {tracks && tracks.length > 0 ? (
           <ul>
             <PoseGroup>
               {tracks.map(track => (
-                <Item key={track.uri}>
+                <Item className="list-group-item border-0" key={track.uri}>
                   <QueuedTrack
                     key={track.uri + '!' || 'unique_dummy_id'}
                     track={track}
