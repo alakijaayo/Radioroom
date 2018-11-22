@@ -27,10 +27,11 @@ class Chat extends Component {
         <h2>Chat</h2>
         <form onSubmit={this.handleSubmit}>
           <textarea
-            rows="5"
-            cols="50"
+            rows="3"
+            cols="25"
             value={this.state.message}
             onChange={this.handleChange}
+            className="w-100"
           />
           <input type="submit" value="Submit" />
         </form>
