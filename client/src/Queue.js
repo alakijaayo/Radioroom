@@ -8,7 +8,10 @@ export default class Queue extends React.Component {
   render() {
     const { tracks } = this.props;
     return (
-      <div className="queued-tracks list-group">
+      <div
+        className="queued-tracks list-group mx-auto"
+        style={{ maxWidth: 800 }}
+      >
         <h2>Up Next</h2>
         {tracks && tracks.length > 0 ? (
           <ul>

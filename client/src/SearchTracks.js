@@ -8,7 +8,7 @@ export default class SearchTracks extends React.Component {
   render() {
     const { tracks } = this.props;
     return (
-      <div className="tracks list-group">
+      <div className="tracks list-group mx-auto" style={{ maxWidth: 800 }}>
         {tracks && tracks.length > 0 ? (
           <ul>
             <PoseGroup>
