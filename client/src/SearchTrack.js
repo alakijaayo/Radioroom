@@ -33,7 +33,7 @@ export default class SearchTrack extends React.Component {
         </div>
         {this.track.id ? (
           <button
-            className="w-20 align-self-center"
+            className="w-20 align-self-center btn btn-secondary"
             onClick={this.onAddToPlaylist}
             style={{ height: 40, minWidth: 80 }}
           >

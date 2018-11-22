@@ -45,6 +45,7 @@ export default class QueuedTrack extends React.Component {
               id="Upvote"
               onClick={this.onVote.bind(this, this.props.track.uri, 1)}
               disabled={this.state.isButtonDisabled}
+              className="btn btn-secondary"
             >
               ↑
             </button>
@@ -52,6 +53,7 @@ export default class QueuedTrack extends React.Component {
               id="Downvote"
               onClick={this.onVote.bind(this, this.props.track.uri, -1)}
               disabled={this.state.isButtonDisabled}
+              className="btn btn-secondary"
             >
               ↓
             </button>

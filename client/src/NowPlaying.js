@@ -28,6 +28,7 @@ export default class NowPlaying extends React.Component {
               <button
                 onClick={this.onSkip.bind(this, this.props.nowPlaying.uri)}
                 disabled={this.props.skipEnable}
+                className="btn btn-secondary"
               >
                 Skip
               </button>

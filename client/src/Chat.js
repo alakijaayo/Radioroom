@@ -36,7 +36,11 @@ class Chat extends Component {
                 onChange={this.handleChange}
               />
               <div className="input-group-append">
-                <input type="submit" value="Submit" />
+                <input
+                  type="submit"
+                  value="Submit"
+                  className="btn btn-secondary"
+                />
               </div>
             </div>
           </form>
