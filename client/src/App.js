@@ -298,7 +298,7 @@ class App extends Component {
         )}
         <div className="fixed-bottom px-auto w-100">
           <div
-            class="btn-group btn-group-lg"
+            className="btn-group btn-group-lg"
             role="group"
             aria-label="Navigation Chat, Home and Search"
           >

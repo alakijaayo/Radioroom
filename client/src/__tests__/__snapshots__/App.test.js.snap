@@ -55,5 +55,39 @@ exports[`App component matches the snapshot 1`] = `
       Login to Spotify
     </a>
   </div>
+  <div
+    className="fixed-bottom px-auto w-100"
+  >
+    <div
+      aria-label="Navigation Chat, Home and Search"
+      className="btn-group btn-group-lg"
+      role="group"
+    >
+      <button
+        className="btn btn-secondary m-0"
+        data-toggle="button"
+        onClick={[Function]}
+        type="button"
+      >
+        Chat
+      </button>
+      <button
+        className="btn btn-secondary active m-0"
+        data-toggle="button"
+        onClick={[Function]}
+        type="button"
+      >
+        Now Playing
+      </button>
+      <button
+        className="btn btn-secondary m-0"
+        data-toggle="button"
+        onClick={[Function]}
+        type="button"
+      >
+        Search
+      </button>
+    </div>
+  </div>
 </div>
 `;
