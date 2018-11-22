@@ -62,8 +62,22 @@ A music media application that allows users to share, sync, discuss and listen t
  - Cypress
  
              $ npm install cypress --save-dev 
-   
+             
+             
+### Running dev environment  
 
+ - inside the `'./radioroom/server'` folder run:
+ 
+             $ node app.js
+             
+ - inside the `'./radioroom/client'` folder run:
+    
+             $ npm run dev
+
+### Running tests
+
+             $ npm test
+             
 ### Application Deployer
 - Heroku
 
